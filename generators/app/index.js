@@ -6,7 +6,7 @@ var yosay = require('yosay');
 
 var validateString = function(input) {
   if (typeof input !== 'string') {
-    this.log(chalk.red('You must pass a valid string valid !'));
+    this.log(chalk.red('You must pass a valid string !'));
     return false;
   } else if (input.length === 0) {
     this.log(chalk.red('Tss Tss Tss, Write something !'));
@@ -26,6 +26,7 @@ module.exports = yeoman.Base.extend({
       src: 'src',
       dest: 'dest',
       test: 'test',
+      gui: 'gui',
     };
   },
   prompting: function () {
@@ -38,7 +39,27 @@ module.exports = yeoman.Base.extend({
         required: true,
         validate: function(input) {
           if (typeof input !== 'string') {
-            this.log(chalk.red('You must pass a valid string valid !'));
+            this.log(chalk.red('You must pass a valid string !'));
+            return false;
+          } else if (input.length === 0) {
+            this.log(chalk.red('Tss Tss Tss, Write something !'));
+            return false;
+          }
+          return true;
+        }.bind(this),
+      },
+
+      {
+        type: 'input',
+        name: 'description',
+        message: 'What is the description of your brick ?',
+        required: true,
+        default: function(answers) {
+          return 'A trowel brick for the ' + answers.name + ' visual component';
+        },
+        validate: function(input) {
+          if (typeof input !== 'string') {
+            this.log(chalk.red('You must pass a valid string !'));
             return false;
           } else if (input.length === 0) {
             this.log(chalk.red('Tss Tss Tss, Write something !'));
@@ -57,7 +78,38 @@ module.exports = yeoman.Base.extend({
         },
         validate: function(input) {
           if (typeof input !== 'string' || input.length === 0) {
-            this.log(chalk.red('You must pass a valid string valid !'));
+            this.log(chalk.red('You must pass a valid string !'));
+            return false;
+          }
+          return true;
+        }.bind(this),
+        required: true
+      },
+
+      {
+        type: 'input',
+        name: 'author_name',
+        message: 'What is your name ?',
+        default: 'Loïc Goyet',
+        validate: function(input) {
+          if (typeof input !== 'string' || input.length === 0) {
+            this.log(chalk.red('You must pass a valid string !'));
+            return false;
+          }
+          return true;
+        }.bind(this),
+        required: true
+      },
+
+      {
+        type: 'input',
+        name: 'author_mail',
+        message: 'What is your mail address ?',
+        default: 'loic@troopers.email',
+        validate: function(input) {
+          var mailregex = /\S+@\S+\.\S+/;
+          if (!mailregex.test(input)) {
+            this.log(chalk.red('You must pass a valid mail !'));
             return false;
           }
           return true;
@@ -100,7 +152,7 @@ module.exports = yeoman.Base.extend({
 
       {
         type: 'confirm',
-        name: 'js',
+        name: 'javascript',
         required: true,
         default: false,
         message: function(answers) {
@@ -115,11 +167,182 @@ module.exports = yeoman.Base.extend({
     }.bind(this));
   },
 
-  writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
+  writing: {
+    scss: function() {
+      if (this.props.scss) {
+        this.fs.copyTpl(
+          this.templatePath('scss/brick.scss'),
+          this.destinationPath(this.folders.src + '/scss/' + this.props.name + '.scss'),
+          { props: this.props }
+        );
+
+        this.fs.copy(
+          this.templatePath('scss/_variables.scss'),
+          this.destinationPath(this.folders.src + '/scss/_variables.scss')
+        );
+
+        this.fs.copy(
+          this.templatePath('scss/.scss-lint.yml'),
+          this.destinationPath('.scss-lint.yml')
+        );
+      }
+    },
+
+    css: function() {
+      if (this.props.css) {
+        this.fs.copyTpl(
+          this.templatePath('css/brick.css'),
+          this.destinationPath(this.folders.src + '/css/' + this.props.name + '.css'),
+          { props: this.props }
+        );
+      }
+    },
+
+    twig: function() {
+      if (this.props.twig) {
+        this.fs.copyTpl(
+          this.templatePath('twig/brick.html.twig'),
+          this.destinationPath(this.folders.src + '/twig/' + this.props.name + '.html.twig'),
+          { props: this.props }
+        );
+      }
+    },
+
+    javascript: function() {
+      if (this.props.javascript) {
+        this.fs.copyTpl(
+          this.templatePath('javascript/brick.js'),
+          this.destinationPath(this.folders.src + '/javascript/' + this.props.name + '.js'),
+          { props: this.props }
+        );
+
+        this.fs.copy(
+          this.templatePath('javascript/.jshintrc.yml'),
+          this.destinationPath('.jshintrc.yml')
+        );
+      }
+    },
+
+    test: function() {
+      if (this.props.twig) {
+        this.fs.copyTpl(
+          this.templatePath('test/index.html.twig'),
+          this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html.twig'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      } else {
+        this.fs.copyTpl(
+          this.templatePath('test/index.html'),
+          this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+
+      if (this.props.scss) {
+        this.fs.copyTpl(
+          this.templatePath('test/style.scss'),
+          this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+
+      if (this.props.css) {
+        this.fs.copyTpl(
+          this.templatePath('test/style.css'),
+          this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.css'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+    },
+
+    gui: function() {
+      if (this.props.twig) {
+        this.fs.copyTpl(
+          this.templatePath('gui/index.html.twig'),
+          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.html.twig'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      } else {
+        this.fs.copyTpl(
+          this.templatePath('gui/index.html'),
+          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.html'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+
+      if (this.props.scss) {
+        this.fs.copyTpl(
+          this.templatePath('gui/style.scss'),
+          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.scss'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+
+      if (this.props.css) {
+        this.fs.copyTpl(
+          this.templatePath('gui/style.css'),
+          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.css'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
+        );
+      }
+    },
+
+    license: function() {
+      this.fs.copy(
+        this.templatePath('LICENSE'),
+        this.destinationPath('LICENSE')
+      );
+    },
+
+    bower: function() {
+      this.fs.copyTpl(
+        this.templatePath('bower/bower.json'),
+        this.destinationPath('bower.json'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('bower/.bowerrc'),
+        this.destinationPath('.bowerrc'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
+
+    readme: function() {},
+    injector: function() {},
+    gulp: function() {},
+    npm: function() {},
+    dotfiles: function() {},
   },
 
   install: function () {

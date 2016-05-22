@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css" charset="utf-8">
+  </head>
+
+  <body>
+    <h1><%= props.name %></h1>
+    <% if (props.javascript) { %><script src="../../<%= folders.dest %>/javascript/<%= props.name %>.min.js"></script><% } %>
+  </body>
+</html>

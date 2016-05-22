@@ -1,0 +1,38 @@
+{
+  "name": "trowel-<%= props.name %>",
+  "homepage": "<%= props.url %>",
+  "authors": [
+    "<%= props.author_name %> <<%= props.author_mail %>>"
+  ],
+  "description": "<%= props.description %>",
+  "main": [
+    <% if (props.scss) { %>"<%= folders.src %>/scss/<%= props.name %>.scss",<% } %>
+    <% if (props.twig) { %>"<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %>
+    <% if (props.scss || props.css) { %>"<%= folders.dest %>/css/<%= props.name %>.css",<% } %>
+    <% if (props.javascript) { %>"<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
+    "injector.json"
+  ],
+  <% if (props.javascript) { %>"moduleType": "globals",<% } %>
+  "keywords": [
+    <% if (props.scss) { %>"scss",<% } %>
+    <% if (props.scss || props.css) { %>"css",<% } %>
+    <% if (props.twig) { %>"twig",<% } %>
+    <% if (props.twig) { %>"html",<% } %>
+    <% if (props.javascript) { %>"javascript",<% } %>
+    <% if (props.javascript) { %>"js",<% } %>
+    "trowel",
+    "trowel-<%= props.name %>",
+    "<%= props.name %>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "<%= props.url %>"
+  }
+}

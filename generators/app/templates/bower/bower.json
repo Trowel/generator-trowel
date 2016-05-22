@@ -33,6 +33,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "<%= props.url %>"
+    "url": "git+<%= props.url %>.git"
   }
 }

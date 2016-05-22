@@ -31,3 +31,6 @@ The twig file is located at the `./<%= folders.src %>/twig/<%= props.name %>.htm
 
 ## Usage
 to be written
+
+## License
+MIT © [Trowel](trowel.github.io)

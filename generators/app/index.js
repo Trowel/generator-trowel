@@ -338,8 +338,18 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    injector: function() {
+      this.fs.copyTpl(
+        this.templatePath('injector/injector.json'),
+        this.destinationPath('injector.json'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
+
     readme: function() {},
-    injector: function() {},
     gulp: function() {},
     npm: function() {},
     dotfiles: function() {},

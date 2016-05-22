@@ -32,7 +32,7 @@
 ├── README.md
 ├── bower.json
 ├── gulpfile.js
-├── injector.json
+├── injector.json // ok
 └── package.json
 ```
 

@@ -33,7 +33,7 @@
 ├── bower.json // ok
 ├── gulpfile.js
 ├── injector.json // ok
-└── package.json
+└── package.json // ok
 ```
 
 ## Roadmap

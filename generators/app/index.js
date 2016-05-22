@@ -377,9 +377,18 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    npm: function() {
+      this.fs.copyTpl(
+        this.templatePath('npm/package.json'),
+        this.destinationPath('package.json'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
+
     gulp: function() {},
-    npm: function() {},
-    dotfiles: function() {},
   },
 
   install: function () {

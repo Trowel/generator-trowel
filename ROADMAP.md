@@ -23,14 +23,14 @@
 ├── gui/
 │   ├── gui.html.twig // ok
 │   └── gui.scss // ok
-├── .bowerrc
-├── .editorconfig
-├── .gitignore
+├── .bowerrc // ok
+├── .editorconfig // ok
+├── .gitignore // ok
 ├── .scss-lint.yml // ok
 ├── .jshintrc.yml // ok
 ├── LICENSE // ok
-├── README.md
-├── bower.json
+├── README.md // ok
+├── bower.json // ok
 ├── gulpfile.js
 ├── injector.json // ok
 └── package.json

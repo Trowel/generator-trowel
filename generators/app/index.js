@@ -349,7 +349,34 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    readme: function() {},
+    readme: function() {
+      this.fs.copyTpl(
+        this.templatePath('readme/README.md'),
+        this.destinationPath('README.md'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
+
+    editorconfig: function() {
+      this.fs.copy(
+        this.templatePath('editorconfig/.editorconfig'),
+        this.destinationPath('.editorconfig')
+      );
+    },
+
+    git: function() {
+      this.fs.copyTpl(
+        this.templatePath('git/.gitignore'),
+        this.destinationPath('.gitignore'),
+        {
+          folders: this.folders
+        }
+      );
+    },
+
     gulp: function() {},
     npm: function() {},
     dotfiles: function() {},

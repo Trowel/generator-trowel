@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "<%= props.description %>",
   "scripts": {
-    "test": "gulp",
-    "dev": "gulp watch",
+    "test": "gulp test",
+    "start": "gulp test_watch",
+    "build": "gulp build",
     "register": "bower register trowel-<%= props.name %> <%= props.url %>"
   },
   "repository": {

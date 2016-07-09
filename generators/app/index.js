@@ -388,10 +388,46 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    gulp: function() {},
+    gulp: function() {
+      this.fs.copyTpl(
+        this.templatePath('gulp/gulpfile.js'),
+        this.destinationPath('gulpfile.js'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
   },
 
   install: function () {
-    this.installDependencies();
+    var npmDependencies = [
+      'gulp',
+      'gulp-size',
+      'gulp-load-plugins',
+      'gulp-prettify',
+      'run-sequence',
+      'browser-sync',
+    ];
+
+    if (this.props.scss) {
+      npmDependencies.push(
+        'gulp-notify',
+        'gulp-sourcemaps',
+        'gulp-sass',
+        'gulp-autoprefixer',
+        'gulp-cssmin',
+        'gulp-rename'
+      );
+    }
+
+    if (this.props.twig) {
+      npmDependencies.push(
+        'gulp-twig',
+        'gulp-ext-replace'
+      );
+    }
+
+    this.npmInstall(npmDependencies, { 'saveDev': true });
   }
 });

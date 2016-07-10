@@ -87,7 +87,7 @@ test = [
 ];
 
 gulp.task('test', test);
-gulp.task('test_watch', prewatch, function() {
+gulp.task('test_watch', test, function() {
   browserSync({
     notify: false,
     logPrefix: '<%= props.name %>',

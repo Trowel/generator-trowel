@@ -9,7 +9,6 @@
 ### Download
 You can easily install trowel-<%= props.name %> by using Bower, a package manager for front-end components. (See bower.io for more details)
 
-`bower install trowel-thumbnail`
 ```bash
 $ bower install trowel-<%= props.name %>
 ```

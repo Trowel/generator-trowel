@@ -74,7 +74,7 @@ module.exports = yeoman.Base.extend({
         name: 'url',
         message: 'What is the url of the repository ?',
         default: function(answers) {
-          return 'https://github.com/Trowel/' + answers.name;
+          return 'https://github.com/FriendsOfTrowel/' + answers.name;
         },
         validate: function(input) {
           if (typeof input !== 'string' || input.length === 0) {

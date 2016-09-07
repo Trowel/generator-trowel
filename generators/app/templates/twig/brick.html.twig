@@ -1,1 +1,4 @@
 {# Here comes the <%= props.name %> markup #}
+
+{% set selector_prefix = 'c-' %}
+<div class="{{ selector_prefix }}<%= props.name %>">hello world !</div>

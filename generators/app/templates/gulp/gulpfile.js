@@ -46,8 +46,6 @@ gulp.task('scss', function () {
     .pipe($.sourcemaps.init())
     .pipe($.sass({
         precision: 6,
-        outputStyle: 'expanded',
-        sourceComments: true,
         indentWidth: 4,
     }))
     .on('error', report_error)
@@ -68,8 +66,6 @@ gulp.task('scss_test', function () {
     .pipe($.sourcemaps.init())
     .pipe($.sass({
         precision: 6,
-        outputStyle: 'expanded',
-        sourceComments: true,
         indentWidth: 4,
     }))
     .on('error', report_error)

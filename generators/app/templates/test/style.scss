@@ -2,4 +2,8 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-<% if (props.scss) { %>@import '../../<%= folders.src %>/scss/<%= props.name %>';<% } %>
+<% if (props.scss) { %>
+@import 'bower_components/sassy-maps/sass/sassy-maps';
+@import 'bower_components/trowel/src/trowel';
+@import '../../<%= folders.src %>/scss/<%= props.name %>';
+<% } %>

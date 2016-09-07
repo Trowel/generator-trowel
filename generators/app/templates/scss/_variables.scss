@@ -1,1 +1,16 @@
-// Here comes all the variables for the sass style
+// Prefix
+$<%= props.name %>--prefix: 'c-';
+
+// Variables
+$<%= props.name %>--var-1: (
+  'default': 'var-1--default',
+  '-modifier': 'var-1--modifier',
+  '@sm': 'var-1--breakpoint',
+  '<a': (
+    'default': 'var-1--tag',
+    ':hover': 'var-1--a:hover',
+  ),
+  ':hover': 'var-1--hover',
+);
+
+$<%= props.name %>--var-2: 'var-2'

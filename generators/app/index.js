@@ -176,9 +176,16 @@ module.exports = yeoman.Base.extend({
           { props: this.props }
         );
 
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath('scss/_variables.scss'),
-          this.destinationPath(this.folders.src + '/scss/_variables.scss')
+          this.destinationPath(this.folders.src + '/scss/_variables.scss'),
+          { props: this.props }
+        );
+
+        this.fs.copyTpl(
+          this.templatePath('scss/mixins/_mixin-example.scss'),
+          this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
+          { props: this.props }
         );
 
         this.fs.copy(
@@ -410,6 +417,8 @@ module.exports = yeoman.Base.extend({
       'browser-sync',
     ];
 
+    var bowerDependencies = [];
+
     if (this.props.scss) {
       npmDependencies.push(
         'gulp-notify',
@@ -418,6 +427,11 @@ module.exports = yeoman.Base.extend({
         'gulp-autoprefixer',
         'gulp-cssmin',
         'gulp-rename'
+      );
+
+      bowerDependencies.push(
+        'trowel-core',
+        'sassy-maps'
       );
     }
 
@@ -429,5 +443,6 @@ module.exports = yeoman.Base.extend({
     }
 
     this.npmInstall(npmDependencies, { 'saveDev': true });
+    this.bowerInstall(bowerDependencies, { 'save': true });
   }
 });

@@ -20,9 +20,9 @@
 │   │   └── …
 │   ├── index.html.twig // ok
 │   └── style.scss // ok
-├── gui/
-│   ├── gui.html.twig // ok
-│   └── gui.scss // ok
+├── styleguide/
+│   ├── styleguide.html.twig // ok
+│   └── styleguide.scss // ok
 ├── .bowerrc // ok
 ├── .editorconfig // ok
 ├── .gitignore // ok

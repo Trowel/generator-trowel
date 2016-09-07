@@ -26,7 +26,7 @@ module.exports = yeoman.Base.extend({
       src: 'src',
       dest: 'dest',
       test: 'test',
-      gui: 'gui',
+      styleguide: 'styleguide',
     };
   },
   prompting: function () {
@@ -74,7 +74,7 @@ module.exports = yeoman.Base.extend({
         name: 'url',
         message: 'What is the url of the repository ?',
         default: function(answers) {
-          return 'https://github.com/Trowel/' + answers.name;
+          return 'https://github.com/FriendsOfTrowel/' + answers.name;
         },
         validate: function(input) {
           if (typeof input !== 'string' || input.length === 0) {
@@ -176,9 +176,16 @@ module.exports = yeoman.Base.extend({
           { props: this.props }
         );
 
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath('scss/_variables.scss'),
-          this.destinationPath(this.folders.src + '/scss/_variables.scss')
+          this.destinationPath(this.folders.src + '/scss/_variables.scss'),
+          { props: this.props }
+        );
+
+        this.fs.copyTpl(
+          this.templatePath('scss/mixins/_mixin-example.scss'),
+          this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
+          { props: this.props }
         );
 
         this.fs.copy(
@@ -267,11 +274,11 @@ module.exports = yeoman.Base.extend({
       }
     },
 
-    gui: function() {
+    styleguide: function() {
       if (this.props.twig) {
         this.fs.copyTpl(
-          this.templatePath('gui/index.html.twig'),
-          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.html.twig'),
+          this.templatePath('styleguide/index.html.twig'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.html.twig'),
           {
             props: this.props,
             folders: this.folders,
@@ -279,8 +286,8 @@ module.exports = yeoman.Base.extend({
         );
       } else {
         this.fs.copyTpl(
-          this.templatePath('gui/index.html'),
-          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.html'),
+          this.templatePath('styleguide/index.html'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.html'),
           {
             props: this.props,
             folders: this.folders,
@@ -290,8 +297,8 @@ module.exports = yeoman.Base.extend({
 
       if (this.props.scss) {
         this.fs.copyTpl(
-          this.templatePath('gui/style.scss'),
-          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.scss'),
+          this.templatePath('styleguide/style.scss'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.scss'),
           {
             props: this.props,
             folders: this.folders,
@@ -301,8 +308,8 @@ module.exports = yeoman.Base.extend({
 
       if (this.props.css) {
         this.fs.copyTpl(
-          this.templatePath('gui/style.css'),
-          this.destinationPath(this.folders.gui + '/' + this.props.name + '-gui.css'),
+          this.templatePath('styleguide/style.css'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.css'),
           {
             props: this.props,
             folders: this.folders,
@@ -410,6 +417,8 @@ module.exports = yeoman.Base.extend({
       'browser-sync',
     ];
 
+    var bowerDependencies = [];
+
     if (this.props.scss) {
       npmDependencies.push(
         'gulp-notify',
@@ -418,6 +427,11 @@ module.exports = yeoman.Base.extend({
         'gulp-autoprefixer',
         'gulp-cssmin',
         'gulp-rename'
+      );
+
+      bowerDependencies.push(
+        'trowel-core',
+        'sassy-maps'
       );
     }
 
@@ -429,5 +443,6 @@ module.exports = yeoman.Base.extend({
     }
 
     this.npmInstall(npmDependencies, { 'saveDev': true });
+    this.bowerInstall(bowerDependencies, { 'save': true });
   }
 });

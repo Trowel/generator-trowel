@@ -164,6 +164,10 @@ module.exports = yeoman.Base.extend({
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.someAnswer;
       this.props = props;
+
+      // For sass code with pre built classes
+      let is_name_plural = props.name.slice(-1) === 's';
+      this.props.name_singular = is_name_plural ? props.name.slice(0, props.name.length - 1) : props.name;
     }.bind(this));
   },
 

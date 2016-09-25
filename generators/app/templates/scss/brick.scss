@@ -11,11 +11,11 @@
   }
 };
 
-$selector: selector--constructor('.', $<%= props.name %>--prefix, '<%= props.name %>');
+$selector: selector--constructor($<%= props.name_singular %>--synthax, '<%= props.name_singular %>');
 
 @include selector($selector) {
-  @include declaration('-include-<%= props.name %>--mixin-example', $<%= props.name %>--var-1);
-  @include declaration('content', $<%= props.name %>--var-2);
+  @include declaration('-include-<%= props.name %>--mixin-example', $<%= props.name_singular %>--var-1);
+  @include declaration('content', $<%= props.name_singular %>--var-2);
 
   @include block-generation;
 }

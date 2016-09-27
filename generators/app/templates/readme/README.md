@@ -17,7 +17,7 @@ $ npm install trowel-<%= props.name %>
 You can also download a zip archive [right here](<%= props.url %>/archive/master.zip).
 
 ### Installation
-<% if (props.scss) { %>#### *SCSS*
+#### *SCSS*
 The main scss file to include to your main `.scss` file is located at the `./<%= folders.src %>/scss/<%= props.name %>.scss`. As a *Trowel Component*, it also requires two dependencies to compile the *scss* code. Here an *scss* installation snippet.
 
 ```
@@ -27,7 +27,7 @@ The main scss file to include to your main `.scss` file is located at the `./<%=
 
 // <%= props.name %> * Trowel Components
 @import './path/to/dependencies/<%= folders.src %>/scss/<%= props.name %>.scss';
-```<% } %>
+```
 
 <% if (props.javascript) { %>#### *JavaScript*
 The javascript file is located at the `./<%= folders.dest %>/javascript/<%= props.name %>.js`. The optimized and minified version is available at `<%= folders.dest %>/javascript/<%= props.name %>.min.js`.<% } %>

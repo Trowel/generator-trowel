@@ -6,16 +6,15 @@
   ],
   "description": "<%= props.description %>",
   "main": [
-    <% if (props.scss) { %>"<%= folders.src %>/scss/<%= props.name %>.scss",<% } %>
+    "<%= folders.src %>/scss/<%= props.name %>.scss",
     <% if (props.twig) { %>"<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %>
-    <% if (props.scss || props.css) { %>"<%= folders.dest %>/css/<%= props.name %>.css",<% } %>
     <% if (props.javascript) { %>"<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
     "injector.json"
   ],
   <% if (props.javascript) { %>"moduleType": "globals",<% } %>
   "keywords": [
-    <% if (props.scss) { %>"scss",<% } %>
-    <% if (props.scss || props.css) { %>"css",<% } %>
+    "scss",
+    "css",
     <% if (props.twig) { %>"twig",<% } %>
     <% if (props.twig) { %>"html",<% } %>
     <% if (props.javascript) { %>"javascript",<% } %>

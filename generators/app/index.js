@@ -120,29 +120,6 @@ module.exports = yeoman.Base.extend({
 
       {
         type: 'confirm',
-        name: 'scss',
-        required: true,
-        default: true,
-        message: function(answers) {
-          return 'Do you want to use scss for your ' + answers.name + ' brick ? (located at `' + this.folders.src + '/scss/' + answers.name + '.scss`)';
-        }.bind(this),
-      },
-
-      {
-        type: 'confirm',
-        name: 'css',
-        required: true,
-        default: true,
-        message: function(answers) {
-          return 'So maybe you would rather use vanilla css for your ' + answers.name + ' brick ? (located at `' + this.folders.src + '/scss/' + answers.name + '.css`)';
-        }.bind(this),
-        when: function(answers) {
-          return !answers.scss;
-        }.bind(this),
-      },
-
-      {
-        type: 'confirm',
         name: 'twig',
         required: true,
         default: true,
@@ -174,40 +151,28 @@ module.exports = yeoman.Base.extend({
 
   writing: {
     scss: function() {
-      if (this.props.scss) {
-        this.fs.copyTpl(
-          this.templatePath('scss/brick.scss'),
-          this.destinationPath(this.folders.src + '/scss/' + this.props.name + '.scss'),
-          { props: this.props }
-        );
+      this.fs.copyTpl(
+        this.templatePath('scss/brick.scss'),
+        this.destinationPath(this.folders.src + '/scss/' + this.props.name + '.scss'),
+        { props: this.props }
+      );
 
-        this.fs.copyTpl(
-          this.templatePath('scss/_variables.scss'),
-          this.destinationPath(this.folders.src + '/scss/_variables.scss'),
-          { props: this.props }
-        );
+      this.fs.copyTpl(
+        this.templatePath('scss/_variables.scss'),
+        this.destinationPath(this.folders.src + '/scss/_variables.scss'),
+        { props: this.props }
+      );
 
-        this.fs.copyTpl(
-          this.templatePath('scss/mixins/_mixin-example.scss'),
-          this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
-          { props: this.props }
-        );
+      this.fs.copyTpl(
+        this.templatePath('scss/mixins/_mixin-example.scss'),
+        this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
+        { props: this.props }
+      );
 
-        this.fs.copy(
-          this.templatePath('scss/.scss-lint.yml'),
-          this.destinationPath('.scss-lint.yml')
-        );
-      }
-    },
-
-    css: function() {
-      if (this.props.css) {
-        this.fs.copyTpl(
-          this.templatePath('css/brick.css'),
-          this.destinationPath(this.folders.src + '/css/' + this.props.name + '.css'),
-          { props: this.props }
-        );
-      }
+      this.fs.copy(
+        this.templatePath('scss/.scss-lint.yml'),
+        this.destinationPath('.scss-lint.yml')
+      );
     },
 
     twig: function() {
@@ -256,27 +221,14 @@ module.exports = yeoman.Base.extend({
         );
       }
 
-      if (this.props.scss) {
-        this.fs.copyTpl(
-          this.templatePath('test/style.scss'),
-          this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
-
-      if (this.props.css) {
-        this.fs.copyTpl(
-          this.templatePath('test/style.css'),
-          this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.css'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
+      this.fs.copyTpl(
+        this.templatePath('test/style.scss'),
+        this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
     },
 
     styleguide: function() {
@@ -300,27 +252,14 @@ module.exports = yeoman.Base.extend({
         );
       }
 
-      if (this.props.scss) {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/style.scss'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.scss'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
-
-      if (this.props.css) {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/style.css'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.css'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
+      this.fs.copyTpl(
+        this.templatePath('styleguide/style.scss'),
+        this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.scss'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
     },
 
     license: function() {
@@ -420,25 +359,18 @@ module.exports = yeoman.Base.extend({
       'gulp-prettify',
       'run-sequence',
       'browser-sync',
+      'gulp-notify',
+      'gulp-sourcemaps',
+      'gulp-sass',
+      'gulp-autoprefixer',
+      'gulp-cssmin',
+      'gulp-rename'
     ];
 
-    var bowerDependencies = [];
-
-    if (this.props.scss) {
-      npmDependencies.push(
-        'gulp-notify',
-        'gulp-sourcemaps',
-        'gulp-sass',
-        'gulp-autoprefixer',
-        'gulp-cssmin',
-        'gulp-rename'
-      );
-
-      bowerDependencies.push(
-        'trowel-core',
-        'sassy-maps'
-      );
-    }
+    var bowerDependencies = [
+      'trowel-core',
+      'sassy-maps'
+    ];
 
     if (this.props.twig) {
       npmDependencies.push(

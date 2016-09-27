@@ -5,7 +5,6 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp test_watch",
-    "build": "gulp build",
     "register": "bower register trowel-<%= props.name %> <%= props.url %>"
   },
   "repository": {
@@ -18,15 +17,14 @@
     "url": "<%= props.url %>/issues"
   },
   "files": [
-    <% if (props.scss) { %>"<%= folders.src %>/scss/<%= props.name %>.scss",<% } %>
+    "<%= folders.src %>/scss/<%= props.name %>.scss",
     <% if (props.twig) { %>"<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %>
-    <% if (props.scss || props.css) { %>"<%= folders.dest %>/css/<%= props.name %>.css",<% } %>
     <% if (props.javascript) { %>"<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
     "injector.json"
   ],
   "keywords": [
-    <% if (props.scss) { %>"scss",<% } %>
-    <% if (props.scss || props.css) { %>"css",<% } %>
+    "scss",
+    "css",
     <% if (props.twig) { %>"twig",<% } %>
     <% if (props.twig) { %>"html",<% } %>
     <% if (props.javascript) { %>"javascript",<% } %>

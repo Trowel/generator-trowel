@@ -19,7 +19,7 @@ gulp.task('template_test', function() {
 });
 
 
-<% if (props.scss) { %>
+
 AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
   'ie_mob >= 10',
@@ -41,26 +41,6 @@ var report_error = function(error) {
   this.emit('end');
 };
 
-gulp.task('scss', function () {
-    return gulp.src('<%= folders.src %>/scss/<%= props.name %>.scss')
-    .pipe($.sourcemaps.init())
-    .pipe($.sass({
-        precision: 6,
-        indentWidth: 4,
-    }))
-    .on('error', report_error)
-    .pipe($.autoprefixer({
-        browsers: AUTOPREFIXER_BROWSERS
-    }))
-    .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('<%= folders.dest %>/css'))
-    .pipe($.size({title: 'css'}))
-    .pipe($.cssmin())
-    .pipe($.rename({ suffix: '.min' }))
-    .pipe(gulp.dest('<%= folders.dest %>/css'))
-    .pipe($.size({title: 'css minified'}))
-});
-
 gulp.task('scss_test', function () {
     return gulp.src('<%= folders.test %>/<%= folders.src %>/style.scss')
     .pipe($.sourcemaps.init())
@@ -75,26 +55,16 @@ gulp.task('scss_test', function () {
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('<%= folders.test %>/<%= folders.dest %>'));
 });
-<% } %>
 
-test = [
-  <% if (props.scss) { %>'scss_test',<% } %>
-  'template_test',
-];
 
-gulp.task('test', test);
-gulp.task('test_watch', test, function() {
+gulp.task('test', ['scss_test', 'template_test']);
+gulp.task('test_watch', ['test'], function() {
   browserSync({
     notify: false,
     logPrefix: '<%= props.name %>',
     server: ['<%= folders.test %>/<%= folders.dest %>']
   });
 
-  <% if (props.scss) { %>gulp.watch(['<%= folders.src %>/scss/**/*.scss', '<%= folders.test %>/<%= folders.src %>/**/*.scss'], ['scss_test', reload]);<% } %>
+  gulp.watch(['<%= folders.src %>/scss/**/*.scss', '<%= folders.test %>/<%= folders.src %>/**/*.scss'], ['scss_test', reload]);
   <% if (props.twig) { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html.twig', '<%= folders.src %>/twig/**/*.html.twig'], ['template_test', reload]);<% } else { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html'], ['template_test', reload]);<% } %>
 });
-
-build = [
-  <% if (props.scss) { %>'scss',<% } %>
-];
-gulp.task('build', build);

@@ -55,7 +55,8 @@ module.exports = yeoman.Base.extend({
         message: 'What is the description of your brick ?',
         required: true,
         default: function(answers) {
-          return 'A trowel brick for the ' + answers.name + ' visual component';
+          let name_capitalized = answers.name.charAt(0).toUpperCase() + answers.name.slice(1);
+          return 'The official Trowel Component for ' + name_capitalized;
         },
         validate: function(input) {
           if (typeof input !== 'string') {

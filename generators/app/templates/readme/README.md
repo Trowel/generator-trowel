@@ -1,31 +1,38 @@
 # Trowel-<%= props.name %>
-[![GitHub version](https://badge.fury.io/gh/trowel%2F<%= props.name %>.svg)](https://badge.fury.io/gh/trowel%2F<%= props.name %>)
+[![npm version](https://badge.fury.io/js/trowel-<%= props.name %>.svg)](https://badge.fury.io/js/trowel)
 [![Bower version](https://badge.fury.io/bo/trowel-<%= props.name %>.svg)](https://badge.fury.io/bo/trowel-<%= props.name %>)
 
 <%= props.description %>
-<%= props.name %> is designed with the trowel philosophy. Please refer to the [Trowel documentation](http://trowel.github.io/) for more informations.
+<%= props.name %> is a *Trowel Component*, please refer to the [Trowel doc](http://trowel.github.io/) for more informations about how works *Trowel Components*
 
 ## Getting Started
 ### Download
-You can easily install trowel-<%= props.name %> by using Bower, a package manager for front-end components. (See bower.io for more details)
+You can easily install trowel-<%= props.name %> by using NPM or Bower
 
 ```bash
 $ bower install trowel-<%= props.name %>
+$ npm install trowel-<%= props.name %>
 ```
 
-You can also download a zip archive clicking [right here](<%= props.url %>/archive/master.zip).
+You can also download a zip archive [right here](<%= props.url %>/archive/master.zip).
 
-### Working files
-<% if (props.scss) { %>#### `.scss` files
-The main scss file is located at the `./<%= folders.src %>/scss/<%= props.name %>.scss`. This file is ready to be included into your scss files. The compiled and minified version is available at `<%= folders.dest %>/css/<%= props.name %>.min.css`.<% } %>
+### Installation
+<% if (props.scss) { %>#### *SCSS*
+The main scss file to include to your main `.scss` file is located at the `./<%= folders.src %>/scss/<%= props.name %>.scss`. As a *Trowel Component*, it also requires two dependencies to compile the *scss* code. Here an *scss* installation snippet.
 
-<% if (props.css) { %>#### `.css` files
-The css file is located at the `./<%= folders.dest %>/css/<%= props.name %>.css`. The optimized and minified version is available at `<%= folders.dest %>/css/<%= props.name %>.min.css`.<% } %>
+```
+// Trowel Dependencies
+@import './path/to/dependencies/sassy-maps/sass/sassy-maps';
+@import './path/to/dependencies/trowel-core/src/trowel';
 
-<% if (props.javascript) { %>#### `.js` files
+// <%= props.name %> * Trowel Components
+@import './path/to/dependencies/<%= folders.src %>/scss/<%= props.name %>.scss';
+```<% } %>
+
+<% if (props.javascript) { %>#### *JavaScript*
 The javascript file is located at the `./<%= folders.dest %>/javascript/<%= props.name %>.js`. The optimized and minified version is available at `<%= folders.dest %>/javascript/<%= props.name %>.min.js`.<% } %>
 
-<% if (props.twig) { %>#### `.html.twig` file
+<% if (props.twig) { %>#### *Twig files*
 The twig file is located at the `./<%= folders.src %>/twig/<%= props.name %>.html.twig`.<% } %>
 
 ## Usage

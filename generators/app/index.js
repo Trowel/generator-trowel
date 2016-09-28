@@ -337,6 +337,11 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
+
+      this.fs.copy(
+        this.templatePath('npm/.npmignore'),
+        this.destinationPath('.npmignore')
+      );
     },
 
     gulp: function() {

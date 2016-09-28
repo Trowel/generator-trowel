@@ -1,3 +1,5 @@
+![Friends of Trowel](https://raw.githubusercontent.com/Trowel/Trowel/master/media/dist/banners/friendsoftrowel-black-on-transparent.png)
+
 # Trowel-<%= props.name %>
 [![npm version](https://badge.fury.io/js/trowel-<%= props.name %>.svg)](https://badge.fury.io/js/trowel)
 [![Bower version](https://badge.fury.io/bo/trowel-<%= props.name %>.svg)](https://badge.fury.io/bo/trowel-<%= props.name %>)

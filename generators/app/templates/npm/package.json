@@ -17,18 +17,18 @@
     "url": "<%= props.url %>/issues"
   },
   "files": [
-    "<%= folders.src %>/scss/<%= props.name %>.scss",
-    <% if (props.twig) { %>"<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %>
-    <% if (props.javascript) { %>"<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
+    "<%= folders.src %>/scss/<%= props.name %>.scss",<% if (props.twig) { %>
+    "<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %><% if (props.javascript) { %>
+    "<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
     "injector.json"
   ],
   "keywords": [
     "scss",
-    "css",
-    <% if (props.twig) { %>"twig",<% } %>
-    <% if (props.twig) { %>"html",<% } %>
-    <% if (props.javascript) { %>"javascript",<% } %>
-    <% if (props.javascript) { %>"js",<% } %>
+    "css",<% if (props.twig) { %>
+    "twig",<% } %><% if (props.twig) { %>
+    "html",<% } %><% if (props.javascript) { %>
+    "javascript",<% } %><% if (props.javascript) { %>
+    "js",<% } %>
     "trowel",
     "trowel-<%= props.name %>",
     "<%= props.name %>"

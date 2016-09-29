@@ -31,7 +31,8 @@
     ".bowerrc",
     ".gitignore",
     "gulpfile.js",
-    "package.json"
+    "package.json",
+    "sache.json"
   ],
   "repository": {
     "type": "git",

@@ -1,0 +1,9 @@
+{
+  "name": "trowel-<%= props.name %>",
+  "description": "<%= props.description %>",
+  "tags": [
+    "ui",
+    "trowel",
+    "<%= props.name %>"
+  ]
+}

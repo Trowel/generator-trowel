@@ -344,6 +344,17 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    sache: function() {
+      this.fs.copyTpl(
+        this.templatePath('sache/sache.json'),
+        this.destinationPath('sache.json'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    },
+
     gulp: function() {
       this.fs.copyTpl(
         this.templatePath('gulp/gulpfile.js'),

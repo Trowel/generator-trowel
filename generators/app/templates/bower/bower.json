@@ -1,5 +1,5 @@
 {
-  "name": "trowel-<%= props.name %>",
+  "name": "friendsOfTrowel-<%= props.name %>-component",
   "homepage": "<%= props.url %>",
   "authors": [
     "<%= props.author_name %> <<%= props.author_mail %>>"

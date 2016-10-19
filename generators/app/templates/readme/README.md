@@ -9,11 +9,17 @@
 
 ## Getting Started
 ### Download
-You can easily install trowel-<%= props.name %> by using NPM or Bower
+You can easily install trowel-<%= props.name %> by using npm, Yarn or Bower
 
 ```bash
-$ bower install trowel-<%= props.name %>
-$ npm install trowel-<%= props.name %>
+# With bower
+$ bower install friendsOfTrowel-<%= props.name %>-component
+
+# With npm
+$ npm install friendsOfTrowel-<%= props.name %>-component
+
+# With yarn
+$ yarn add friendsOfTrowel-<%= props.name %>-component
 ```
 
 You can also download a zip archive [right here](<%= props.url %>/archive/master.zip).

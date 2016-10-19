@@ -413,7 +413,9 @@ module.exports = yeoman.Base.extend({
       );
     }
 
-    this.npmInstall(npmDependencies, { 'saveDev': true });
+    this.npmInstall(npmDependencies, { 'saveDev': true }, function() {
+      this.runInstall('yarn');
+    }.bind(this));
     this.bowerInstall(bowerDependencies, { 'save': true });
   }
 });

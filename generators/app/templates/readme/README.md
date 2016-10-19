@@ -27,7 +27,7 @@ The main scss file to include to your main `.scss` file is located at the `./<%=
 @import './path/to/dependencies/sassy-maps/sass/sassy-maps';
 @import './path/to/dependencies/trowel-core/src/trowel';
 
-// <%= props.name %> * Trowel Components
+// Trowel Components <%= props.name %>
 @import './path/to/dependencies/<%= folders.src %>/scss/<%= props.name %>.scss';
 ```
 

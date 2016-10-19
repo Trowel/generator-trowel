@@ -158,14 +158,32 @@ module.exports = yeoman.Base.extend({
       );
 
       this.fs.copyTpl(
-        this.templatePath('scss/_variables.scss'),
-        this.destinationPath(this.folders.src + '/scss/_variables.scss'),
+        this.templatePath('scss/variables/_synthax.scss'),
+        this.destinationPath(this.folders.src + '/scss/variables/_synthax.scss'),
+        { props: this.props }
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('scss/variables/_theme-blank.scss'),
+        this.destinationPath(this.folders.src + '/scss/variables/_theme-blank.scss'),
+        { props: this.props }
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('scss/variables/_theme-trowel.scss'),
+        this.destinationPath(this.folders.src + '/scss/variables/_theme-trowel.scss'),
         { props: this.props }
       );
 
       this.fs.copyTpl(
         this.templatePath('scss/mixins/_mixin-example.scss'),
         this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
+        { props: this.props }
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('scss/_statements.scss'),
+        this.destinationPath(this.folders.src + '/scss/_statements.scss'),
         { props: this.props }
       );
 

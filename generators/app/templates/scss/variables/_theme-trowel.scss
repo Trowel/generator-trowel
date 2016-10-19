@@ -1,14 +1,3 @@
-// Synthax
-$<%= props.name_singular %>--synthax: (
-  'prefix': 'c',
-  'separator': (
-    'prefix': '-',
-    'element': '__',
-    'modifier': '--',
-  ),
-) !default;
-
-// Variables
 $<%= props.name_singular %>--var-1: (
   'default': 'var-1--default',
   '-modifier': 'var-1--modifier',

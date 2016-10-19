@@ -1,0 +1,18 @@
+/**
+ * <%= props.name %>
+ */
+
+@mixin mixin-dispatcher($value, $flags, $mixin) {
+  @if $mixin == '<%= props.name %>--mixin-example' {
+    @include <%= props.name %>--mixin-example($value, $flags);
+  }
+};
+
+$selector: selector--constructor($<%= props.name_singular %>--synthax, '<%= props.name_singular %>');
+
+@include selector($selector) {
+  @include declaration('-include-<%= props.name %>--mixin-example', $<%= props.name_singular %>--var-1);
+  @include declaration('content', $<%= props.name_singular %>--var-2);
+
+  @include block-generation;
+}

@@ -1,0 +1,9 @@
+$$<%= props.name_singular %>--prefix: 'c' !default;
+$<%= props.name_singular %>--synthax: (
+  'prefix': $$<%= props.name_singular %>--prefix,
+  'separator': (
+    'prefix': '-',
+    'element': '__',
+    'modifier': '--',
+  ),
+);

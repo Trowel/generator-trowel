@@ -56,8 +56,12 @@ gulp.task('scss_test', function () {
     .pipe(gulp.dest('<%= folders.test %>/<%= folders.dest %>'));
 });
 
+<% if (props.javascript) { %>gulp.task('script_test', function() {
+  return gulp.src('./<%= folders.src %>/javascript/**/*')
+    .pipe(gulp.dest('./<%= folders.test %>/<%= folders.dest %>/javascript'));
+})<% } %>
 
-gulp.task('test', ['scss_test', 'template_test']);
+gulp.task('test', ['scss_test', 'template_test'<% if (props.javascript) { %>, 'script_test'<% } %>]);
 gulp.task('test_watch', ['test'], function() {
   browserSync({
     notify: false,
@@ -67,4 +71,5 @@ gulp.task('test_watch', ['test'], function() {
 
   gulp.watch(['<%= folders.src %>/scss/**/*.scss', '<%= folders.test %>/<%= folders.src %>/**/*.scss'], ['scss_test', reload]);
   <% if (props.twig) { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html.twig', '<%= folders.src %>/twig/**/*.html.twig'], ['template_test', reload]);<% } else { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html'], ['template_test', reload]);<% } %>
+  <% if (props.javascript) { %>gulp.watch('./<%= folders.src %>/javascript/**/*', ['script_test', reload]);<% } %>
 });

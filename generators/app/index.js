@@ -414,8 +414,9 @@ module.exports = yeoman.Base.extend({
     }
 
     this.npmInstall(npmDependencies, { 'saveDev': true }, function() {
-      this.runInstall('yarn');
+      this.runInstall('yarn', null, function() {
+        this.bowerInstall(['trowel-core'], { 'save': true });
+      }.bind(this));
     }.bind(this));
-    this.bowerInstall(bowerDependencies, { 'save': true });
   }
 });

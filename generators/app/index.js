@@ -47,6 +47,9 @@ module.exports = yeoman.Base.extend({
           }
           return true;
         }.bind(this),
+        filter: function(input) {
+          return input.charAt(0).toUpperCase() + input.slice(1)
+        }.bind(this),
       },
 
       {
@@ -55,8 +58,7 @@ module.exports = yeoman.Base.extend({
         message: 'What is the description of your component ?',
         required: true,
         default: function(answers) {
-          let name_capitalized = answers.name.charAt(0).toUpperCase() + answers.name.slice(1);
-          return 'The official Trowel Component for ' + name_capitalized;
+          return 'The official Trowel Component for ' + answers.name;
         },
         validate: function(input) {
           if (typeof input !== 'string') {
@@ -124,7 +126,7 @@ module.exports = yeoman.Base.extend({
         required: true,
         default: true,
         message: function(answers) {
-          return 'And what about some twig template ? (located at `' + this.folders.src + '/twig/' + answers.name + '.html.twig`)';
+          return 'And what about some twig template ? (located at `' + this.folders.src + '/twig/' + answers.name.toLowerCase() + '.html.twig`)';
         }.bind(this),
       },
 
@@ -134,7 +136,7 @@ module.exports = yeoman.Base.extend({
         required: true,
         default: false,
         message: function(answers) {
-          return 'Some javascript file with it ? (located at `' + this.folders.src + '/javascript/' + answers.name + '.js`)';
+          return 'Some javascript file with it ? (located at `' + this.folders.src + '/javascript/' + answers.name.toLowerCase() + '.js`)';
         }.bind(this),
       },
     ];
@@ -146,6 +148,7 @@ module.exports = yeoman.Base.extend({
       // For sass code with pre built classes
       let is_name_plural = props.name.slice(-1) === 's';
       this.props.name_singular = is_name_plural ? props.name.slice(0, props.name.length - 1) : props.name;
+      this.props.name_lower = props.name.toLowerCase();
     }.bind(this));
   },
 
@@ -153,7 +156,7 @@ module.exports = yeoman.Base.extend({
     scss: function() {
       this.fs.copyTpl(
         this.templatePath('scss/component.scss'),
-        this.destinationPath(this.folders.src + '/scss/' + this.props.name + '.scss'),
+        this.destinationPath(this.folders.src + '/scss/' + this.props.name_lower + '.scss'),
         { props: this.props }
       );
 
@@ -197,7 +200,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.twig) {
         this.fs.copyTpl(
           this.templatePath('twig/component.html.twig'),
-          this.destinationPath(this.folders.src + '/twig/' + this.props.name + '.html.twig'),
+          this.destinationPath(this.folders.src + '/twig/' + this.props.name_lower + '.html.twig'),
           { props: this.props }
         );
       }
@@ -207,7 +210,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.javascript) {
         this.fs.copyTpl(
           this.templatePath('javascript/component.js'),
-          this.destinationPath(this.folders.src + '/javascript/' + this.props.name + '.js'),
+          this.destinationPath(this.folders.src + '/javascript/' + this.props.name_lower + '.js'),
           { props: this.props }
         );
 
@@ -253,7 +256,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.twig) {
         this.fs.copyTpl(
           this.templatePath('styleguide/index.html.twig'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.html.twig'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.html.twig'),
           {
             props: this.props,
             folders: this.folders,
@@ -262,7 +265,7 @@ module.exports = yeoman.Base.extend({
       } else {
         this.fs.copyTpl(
           this.templatePath('styleguide/index.html'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.html'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.html'),
           {
             props: this.props,
             folders: this.folders,
@@ -272,7 +275,7 @@ module.exports = yeoman.Base.extend({
 
       this.fs.copyTpl(
         this.templatePath('styleguide/style.scss'),
-        this.destinationPath(this.folders.styleguide + '/' + this.props.name + '-styleguide.scss'),
+        this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.scss'),
         {
           props: this.props,
           folders: this.folders,

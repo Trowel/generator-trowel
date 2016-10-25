@@ -15,7 +15,7 @@
     </h1>
 
 
-    {% include '../../<%= folders.src %>/twig/<%= props.name %>.html.twig' %}
-    <% if (props.javascript) { %><script src="./javascript/<%= props.name %>.js"></script><% } %>
+    {% include '../../<%= folders.src %>/twig/<%= props.name_lower %>.html.twig' %}
+    <% if (props.javascript) { %><script src="./javascript/<%= props.name_lower %>.js"></script><% } %>
   </body>
 </html>

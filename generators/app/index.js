@@ -35,7 +35,7 @@ module.exports = yeoman.Base.extend({
       {
         type: 'input',
         name: 'name',
-        message: 'What is the name of your trowel brick ?',
+        message: 'What is the name of your trowel component ?',
         required: true,
         validate: function(input) {
           if (typeof input !== 'string') {
@@ -52,7 +52,7 @@ module.exports = yeoman.Base.extend({
       {
         type: 'input',
         name: 'description',
-        message: 'What is the description of your brick ?',
+        message: 'What is the description of your component ?',
         required: true,
         default: function(answers) {
           let name_capitalized = answers.name.charAt(0).toUpperCase() + answers.name.slice(1);
@@ -152,7 +152,7 @@ module.exports = yeoman.Base.extend({
   writing: {
     scss: function() {
       this.fs.copyTpl(
-        this.templatePath('scss/brick.scss'),
+        this.templatePath('scss/component.scss'),
         this.destinationPath(this.folders.src + '/scss/' + this.props.name + '.scss'),
         { props: this.props }
       );
@@ -196,7 +196,7 @@ module.exports = yeoman.Base.extend({
     twig: function() {
       if (this.props.twig) {
         this.fs.copyTpl(
-          this.templatePath('twig/brick.html.twig'),
+          this.templatePath('twig/component.html.twig'),
           this.destinationPath(this.folders.src + '/twig/' + this.props.name + '.html.twig'),
           { props: this.props }
         );
@@ -206,7 +206,7 @@ module.exports = yeoman.Base.extend({
     javascript: function() {
       if (this.props.javascript) {
         this.fs.copyTpl(
-          this.templatePath('javascript/brick.js'),
+          this.templatePath('javascript/component.js'),
           this.destinationPath(this.folders.src + '/javascript/' + this.props.name + '.js'),
           { props: this.props }
         );

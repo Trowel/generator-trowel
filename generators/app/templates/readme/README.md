@@ -13,13 +13,13 @@ You can easily install trowel-<%= props.name %> by using npm, Yarn or Bower
 
 ```bash
 # With bower
-$ bower install friendsOfTrowel-<%= props.name %>-component
+$ bower install <%= props.packageName %>
 
 # With npm
-$ npm install friendsOfTrowel-<%= props.name %>-component
+$ npm install <%= props.packageName %>
 
 # With yarn
-$ yarn add friendsOfTrowel-<%= props.name %>-component
+$ yarn add <%= props.packageName %>
 ```
 
 You can also download a zip archive [right here](<%= props.url %>/archive/master.zip).

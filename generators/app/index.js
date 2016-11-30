@@ -93,6 +93,24 @@ module.exports = yeoman.Base.extend({
 
       {
         type: 'input',
+        name: 'packageName',
+        message: 'What\'s the name of your future packages (for bower/npm/yarn) ?',
+        default: function(answers) {
+          return 'trowel-' + answers.name.toLowerCase();
+        },
+        // @TODO check with bower and npm API if names are availables
+        validate: function(input) {
+          if (typeof input !== 'string' || input.length === 0) {
+            this.log(chalk.red('You must pass a valid string !'));
+            return false;
+          }
+          return true;
+        }.bind(this),
+        required: true,
+      },
+
+      {
+        type: 'input',
         name: 'author_name',
         message: 'What is your name ?',
         default: 'Loïc Goyet',

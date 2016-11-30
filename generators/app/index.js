@@ -144,7 +144,7 @@ module.exports = yeoman.Base.extend({
         type: 'confirm',
         name: 'twig',
         required: true,
-        default: true,
+        default: false,
         message: function(answers) {
           return 'And what about some twig template ? (located at `' + this.folders.src + '/twig/' + answers.name.toLowerCase() + '.html.twig`)';
         }.bind(this),

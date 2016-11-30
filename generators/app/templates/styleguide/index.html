@@ -5,6 +5,6 @@
 
   <body>
     <h1><%= props.name %></h1>
-    <% if (props.javascript) { %><script src="../../<%= folders.dest %>/javascript/<%= props.name %>.min.js"></script><% } %>
+    <% if (props.javascript) { %><script src="../../<%= folders.dest %>/javascript/<%= props.names.kebabcase.plural %>.min.js"></script><% } %>
   </body>
 </html>

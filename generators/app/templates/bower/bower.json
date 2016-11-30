@@ -6,9 +6,9 @@
   ],
   "description": "<%= props.description %>",
   "main": [
-    "<%= folders.src %>/scss/<%= props.name %>.scss",<% if (props.twig) { %>
-    "<%= folders.src %>/twig/<%= props.name %>.html.twig",<% } %><% if (props.javascript) { %>
-    "<%= folders.dest %>/javascript/<%= props.name %>.js",<% } %>
+    "<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>.scss",<% if (props.twig) { %>
+    "<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig",<% } %><% if (props.javascript) { %>
+    "<%= folders.dest %>/javascript/<%= props.names.kebabcase.plural %>.js",<% } %>
     "injector.json"
   ],
   <% if (props.javascript) { %>"moduleType": "globals",<% } %>
@@ -20,8 +20,8 @@
     "javascript",<% } %><% if (props.javascript) { %>
     "js",<% } %>
     "trowel",
-    "trowel-<%= props.name %>",
-    "<%= props.name %>"
+    "<%= props.packageName %>",
+    "<%= props.names.kebabcase.singular %>"
   ],
   "license": "MIT",
   "ignore": [

@@ -65,7 +65,7 @@ gulp.task('test', ['scss_test', 'template_test'<% if (props.javascript) { %>, 's
 gulp.task('test_watch', ['test'], function() {
   browserSync({
     notify: false,
-    logPrefix: '<%= props.name %>',
+    logPrefix: 'Trowel <%= props.names.capitalcase.plural %>',
     server: ['<%= folders.test %>/<%= folders.dest %>']
   });
 

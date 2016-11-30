@@ -1,4 +1,4 @@
-$<%= props.name_singular %>--var-1: (
+$<%= props.names.attachedcase.plural %>--var-1: (
   'default': 'var-1--default',
   '-modifier': 'var-1--modifier',
   '@sm': 'var-1--breakpoint',
@@ -9,4 +9,4 @@ $<%= props.name_singular %>--var-1: (
   ':hover': 'var-1--hover',
 ) !default;
 
-$<%= props.name_singular %>--var-2: 'var-2' !default;
+$<%= props.names.attachedcase.plural %>--var-2: 'var-2' !default;

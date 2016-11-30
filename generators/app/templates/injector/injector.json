@@ -1,14 +1,14 @@
 {
   "stylevendors": [
-    "@bower/trowel-<%= props.name %>/<%= folders.src %>/scss/<%= props.name %>.scss"
+    "@bower/trowel-<%= props.packageName %>/<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>.scss"
   ],
   <% if (props.javascript) { %>"scriptvendors": [
-    "@bower/trowel-<%= props.name %>/<%= folders.dest %>/javascript/<%= props.name %>.min.js"
+    "@bower/trowel-<%= props.packageName %>/<%= folders.dest %>/javascript/<%= props.names.kebabcase.plural %>.min.js"
   ],<% } %>
   "stylegui": [
-    "@bower/trowel-<%= props.name %>/<%= folders.gui %>/<%= props.name %>-gui.scss"
+    "@bower/trowel-<%= props.packageName %>/<%= folders.gui %>/<%= props.names.kebabcase.plural %>-styleguide.scss"
   ],
   "templategui": [
-    "@bower/trowel-<%= props.name %>/<%= folders.gui %>/<%= props.name %>-gui.html.twig"
+    "@bower/trowel-<%= props.packageName %>/<%= folders.gui %>/<%= props.names.kebabcase.plural %>-styleguide.html.twig"
   ]
 }

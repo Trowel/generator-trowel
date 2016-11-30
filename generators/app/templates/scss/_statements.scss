@@ -1,18 +1,18 @@
 /**
- * <%= props.name %>
+ * <%= props.names.capitalcase.plural %>
  */
 
 @mixin mixin-dispatcher($value, $flags, $mixin) {
-  @if $mixin == '<%= props.name %>--mixin-example' {
-    @include <%= props.name %>--mixin-example($value, $flags);
+  @if $mixin == '<%= props.names.attachedcase.plural %>--mixin-example' {
+    @include <%= props.names.attachedcase.plural %>--mixin-example($value, $flags);
   }
 };
 
-$selector: selector--constructor($<%= props.name_singular %>--synthax, '<%= props.name_singular %>');
+$selector: selector--constructor($<%= props.names.attachedcase.plural %>--synthax, '<%= props.names.kebabcase.singular %>');
 
 @include selector($selector) {
-  @include declaration('-include-<%= props.name %>--mixin-example', $<%= props.name_singular %>--var-1);
-  @include declaration('content', $<%= props.name_singular %>--var-2);
+  @include declaration('-include-<%= props.names.attachedcase.plural %>--mixin-example', $<%= props.names.attachedcase.plural %>--var-1);
+  @include declaration('content', $<%= props.names.attachedcase.plural %>--var-2);
 
   @include block-generation;
 }

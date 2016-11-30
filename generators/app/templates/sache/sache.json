@@ -1,9 +1,9 @@
 {
-  "name": "trowel-<%= props.name %>",
+  "name": "<%= props.packageName %>",
   "description": "<%= props.description %>",
   "tags": [
     "ui",
     "trowel",
-    "<%= props.name %>"
+    "<%= props.names.lowercase.plural %>"
   ]
 }

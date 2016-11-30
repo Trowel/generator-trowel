@@ -1,4 +1,4 @@
-{# Here comes the <%= props.name %> markup #}
+{# Here comes the <%= props.names.lowercase.singular %> markup #}
 
 {% set selector_prefix = 'c-' %}
-<div class="{{ selector_prefix }}<%= props.name %>">hello world !</div>
+<div class="{{ selector_prefix }}<%= props.names.kebabcase.singular %>">hello world !</div>

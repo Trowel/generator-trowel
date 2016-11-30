@@ -1,6 +1,6 @@
-$<%= props.name_singular %>--prefix: 'c' !default;
-$<%= props.name_singular %>--synthax: (
-  'prefix': $<%= props.name_singular %>--prefix,
+$<%= props.names.attachedcase.plural %>--prefix: 'c' !default;
+$<%= props.names.attachedcase.plural %>--synthax: (
+  'prefix': $<%= props.names.attachedcase.plural %>--prefix,
   'separator': (
     'prefix': '-',
     'element': '__',

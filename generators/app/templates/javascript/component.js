@@ -1,1 +1,1 @@
-console.log('hello <%= props.name %> !');
+console.log('hello <%= props.names.lowercase.singular %> !');

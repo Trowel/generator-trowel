@@ -3,6 +3,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var caseFilter = require('./case-filters.js')();
 
 var validateString = function(input) {
   if (typeof input !== 'string') {
@@ -33,7 +34,7 @@ module.exports = yeoman.Base.extend({
   },
 
   prompting: function () {
-    var prompts = [
+    return this.prompt([
       {
         type: 'input',
         name: 'name',
@@ -50,6 +51,37 @@ module.exports = yeoman.Base.extend({
           return true;
         }.bind(this),
         filter: function(input) {
+          let isPlural = input.slice(-1) === 's';
+          let singular = isPlural ? input.slice(0, input.length - 1) : input;
+          let plural = isPlural ? input : input + 's';
+
+          this.names = {
+            camelcase: {
+              singular: caseFilter.toCamelCase(singular),
+              plural: caseFilter.toCamelCase(plural),
+            },
+            pascalcase: {
+              singular: caseFilter.toPascalCase(singular),
+              plural: caseFilter.toPascalCase(plural),
+            },
+            kebabcase: {
+              singular: caseFilter.toKebabCase(singular),
+              plural: caseFilter.toKebabCase(plural),
+            },
+            lowercase: {
+              singular: caseFilter.toLowerCase(singular),
+              plural: caseFilter.toLowerCase(plural),
+            },
+            capitalcase: {
+              singular: caseFilter.toCapitalCase(singular),
+              plural: caseFilter.toCapitalCase(plural),
+            },
+            attachedcase: {
+              singular: caseFilter.toAttachedCase(singular),
+              plural: caseFilter.toAttachedCase(plural),
+            },
+          }
+
           return input.charAt(0).toUpperCase() + input.slice(1).replace(' ', '-');
         }.bind(this),
       },
@@ -60,8 +92,8 @@ module.exports = yeoman.Base.extend({
         message: 'What is the description of your component ?',
         required: true,
         default: function(answers) {
-          return 'The official Trowel Component for ' + answers.name;
-        },
+          return 'The official Trowel Component for ' + this.names.lowercase.plural;
+        }.bind(this),
         validate: function(input) {
           if (typeof input !== 'string') {
             this.log(chalk.red('You must pass a valid string !'));
@@ -79,8 +111,8 @@ module.exports = yeoman.Base.extend({
         name: 'url',
         message: 'What is the url of the repository ?',
         default: function(answers) {
-          return 'https://github.com/FriendsOfTrowel/' + answers.name;
-        },
+          return 'https://github.com/FriendsOfTrowel/' + this.names.pascalcase.plural;
+        }.bind(this),
         validate: function(input) {
           if (typeof input !== 'string' || input.length === 0) {
             this.log(chalk.red('You must pass a valid string !'));
@@ -96,8 +128,8 @@ module.exports = yeoman.Base.extend({
         name: 'packageName',
         message: 'What\'s the name of your future packages (for bower/npm/yarn) ?',
         default: function(answers) {
-          return 'trowel-' + answers.name.toLowerCase();
-        },
+          return 'trowel-' + this.names.kebabcase.plural;
+        }.bind(this),
         // @TODO check with bower and npm API if names are availables
         validate: function(input) {
           if (typeof input !== 'string' || input.length === 0) {
@@ -146,7 +178,7 @@ module.exports = yeoman.Base.extend({
         required: true,
         default: false,
         message: function(answers) {
-          return 'And what about some twig template ? (located at `' + this.folders.src + '/twig/' + answers.name.toLowerCase() + '.html.twig`)';
+          return 'And what about some twig template ? (located at `' + this.folders.src + '/twig/' + this.names.kebabcase.plural + '.html.twig`)';
         }.bind(this),
       },
 
@@ -156,19 +188,12 @@ module.exports = yeoman.Base.extend({
         required: true,
         default: false,
         message: function(answers) {
-          return 'Some javascript file with it ? (located at `' + this.folders.src + '/javascript/' + answers.name.toLowerCase() + '.js`)';
+          return 'Some javascript file with it ? (located at `' + this.folders.src + '/javascript/' + this.names.kebabcase.plural + '.js`)';
         }.bind(this),
       },
-    ];
-
-    return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
+    ]).then(function (props) {
       this.props = props;
-
-      // For sass code with pre built classes
-      let is_name_plural = props.name.slice(-1) === 's';
-      this.props.name_singular = is_name_plural ? props.name.slice(0, props.name.length - 1) : props.name;
-      this.props.name_lower = props.name.toLowerCase();
+      this.props.names = this.names;
     }.bind(this));
   },
 
@@ -176,7 +201,7 @@ module.exports = yeoman.Base.extend({
     scss: function() {
       this.fs.copyTpl(
         this.templatePath('scss/component.scss'),
-        this.destinationPath(this.folders.src + '/scss/' + this.props.name_lower + '.scss'),
+        this.destinationPath(this.folders.src + '/scss/' + this.props.names.kebabcase.plural + '.scss'),
         { props: this.props }
       );
 
@@ -220,7 +245,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.twig) {
         this.fs.copyTpl(
           this.templatePath('twig/component.html.twig'),
-          this.destinationPath(this.folders.src + '/twig/' + this.props.name_lower + '.html.twig'),
+          this.destinationPath(this.folders.src + '/twig/' + this.props.names.kebabcase.singular + '.html.twig'),
           { props: this.props }
         );
       }
@@ -230,7 +255,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.javascript) {
         this.fs.copyTpl(
           this.templatePath('javascript/component.js'),
-          this.destinationPath(this.folders.src + '/javascript/' + this.props.name_lower + '.js'),
+          this.destinationPath(this.folders.src + '/javascript/' + this.props.names.kebabcase.plural + '.js'),
           { props: this.props }
         );
 
@@ -276,7 +301,7 @@ module.exports = yeoman.Base.extend({
       if (this.props.twig) {
         this.fs.copyTpl(
           this.templatePath('styleguide/index.html.twig'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.html.twig'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html.twig'),
           {
             props: this.props,
             folders: this.folders,
@@ -285,7 +310,7 @@ module.exports = yeoman.Base.extend({
       } else {
         this.fs.copyTpl(
           this.templatePath('styleguide/index.html'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.html'),
+          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html'),
           {
             props: this.props,
             folders: this.folders,
@@ -295,7 +320,7 @@ module.exports = yeoman.Base.extend({
 
       this.fs.copyTpl(
         this.templatePath('styleguide/style.scss'),
-        this.destinationPath(this.folders.styleguide + '/' + this.props.name_lower + '-styleguide.scss'),
+        this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.scss'),
         {
           props: this.props,
           folders: this.folders,

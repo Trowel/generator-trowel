@@ -48,7 +48,7 @@ module.exports = yeoman.Base.extend({
           return true;
         }.bind(this),
         filter: function(input) {
-          return input.charAt(0).toUpperCase() + input.slice(1);
+          return input.charAt(0).toUpperCase() + input.slice(1).replace(' ', '-');
         }.bind(this),
       },
 

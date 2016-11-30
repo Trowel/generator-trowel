@@ -29,8 +29,8 @@ module.exports = yeoman.Base.extend({
       styleguide: 'styleguide',
     };
   },
-  prompting: function () {
 
+  prompting: function () {
     var prompts = [
       {
         type: 'input',
@@ -48,7 +48,7 @@ module.exports = yeoman.Base.extend({
           return true;
         }.bind(this),
         filter: function(input) {
-          return input.charAt(0).toUpperCase() + input.slice(1)
+          return input.charAt(0).toUpperCase() + input.slice(1);
         }.bind(this),
       },
 

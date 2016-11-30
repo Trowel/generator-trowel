@@ -17,6 +17,8 @@ var validateString = function(input) {
 
 module.exports = yeoman.Base.extend({
   initializing: function() {
+    this.option('noinstall');
+
     // Have Yeoman greet the user.
     this.log(yosay(
       'It\'s time to make some ' + chalk.red('trowel') + '!'
@@ -416,10 +418,12 @@ module.exports = yeoman.Base.extend({
       );
     }
 
-    this.npmInstall(npmDependencies, { 'saveDev': true }, function() {
-      this.runInstall('yarn', null, function() {
-        this.bowerInstall(['trowel-core'], { 'save': true });
+    if (!this.options.noinstall) {
+      this.npmInstall(npmDependencies, { 'saveDev': true }, function() {
+        this.runInstall('yarn', null, function() {
+          this.bowerInstall(['trowel-core'], { 'save': true });
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
+    }
   }
 });

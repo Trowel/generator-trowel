@@ -14,6 +14,12 @@
         <%= props.names.capitalcase.plural %>
     </h1>
 
-    <% if (props.javascript) { %><script src="./javascript/<%= props.names.kebabcase.plural %>.js"></script><% } %>
+    <div class="c-<%= props.names.kebabcase.singular %>"></div>
+
+    <% if (props.javascript) { %><script src="./javascript/<%= props.names.kebabcase.plural %>.js"></script>
+
+    <script type="text/javascript">
+        var drops = new Trowel<%= props.names.pascalcase.plural %>(document.querySelectorAll('.c-<%= props.names.kebabcase.singular %>'));
+    </script><% } %>
   </body>
 </html>

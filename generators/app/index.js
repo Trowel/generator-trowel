@@ -295,6 +295,15 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
+
+      this.fs.copyTpl(
+        this.templatePath('test/trowel-component.scss'),
+        this.destinationPath(this.folders.test + '/' + this.folders.src + '/trowel-' + this.props.names.kebabcase.plural + '.scss'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
     },
 
     styleguide: function() {
@@ -458,6 +467,13 @@ module.exports = yeoman.Base.extend({
       npmDependencies.push(
         'gulp-twig',
         'gulp-ext-replace'
+      );
+    }
+
+    if (this.props.javascript) {
+      npmDependencies.push(
+        'gulp-babel',
+        'babel-preset-es2015'
       );
     }
 

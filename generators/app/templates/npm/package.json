@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "<%= props.description %>",
   "scripts": {
-    "test": "gulp test",
-    "start": "gulp test_watch"
+    "test": "gulp",
+    "start": "gulp watch"
   },
   "repository": {
     "type": "git",

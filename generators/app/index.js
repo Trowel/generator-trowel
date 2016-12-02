@@ -212,14 +212,8 @@ module.exports = yeoman.Base.extend({
       );
 
       this.fs.copyTpl(
-        this.templatePath('scss/variables/_theme-blank.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_theme-blank.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/variables/_theme-trowel.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_theme-trowel.scss'),
+        this.templatePath('scss/variables/_theme.scss'),
+        this.destinationPath(this.folders.src + '/scss/variables/_theme.scss'),
         { props: this.props }
       );
 

@@ -437,7 +437,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function () {
-    var npmDependencies = [
+    var npmDevDependencies = [
       'gulp',
       'gulp-size',
       'gulp-load-plugins',
@@ -458,23 +458,25 @@ module.exports = yeoman.Base.extend({
     ];
 
     if (this.props.twig) {
-      npmDependencies.push(
+      npmDevDependencies.push(
         'gulp-twig',
         'gulp-ext-replace'
       );
     }
 
     if (this.props.javascript) {
-      npmDependencies.push(
+      npmDevDependencies.push(
         'gulp-babel',
         'babel-preset-es2015'
       );
     }
 
     if (!this.options.noinstall) {
-      this.npmInstall(npmDependencies, { 'saveDev': true }, function() {
-        this.runInstall('yarn', null, function() {
-          this.bowerInstall(['trowel-core'], { 'save': true });
+      this.npmInstall(['trowel-core'], {}, function() {
+        this.npmInstall(npmDevDependencies, { 'saveDev': true }, function() {
+          this.runInstall('yarn', null, function() {
+            this.bowerInstall(['trowel-core'], { 'save': true });
+          }.bind(this));
         }.bind(this));
       }.bind(this));
     }

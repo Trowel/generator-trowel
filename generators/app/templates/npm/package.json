@@ -15,12 +15,6 @@
   "bugs": {
     "url": "<%= props.url %>/issues"
   },
-  "files": [
-    "<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>.scss",<% if (props.twig) { %>
-    "<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig",<% } %><% if (props.javascript) { %>
-    "<%= folders.dest %>/javascript/<%= props.names.kebabcase.plural %>.js",<% } %>
-    "injector.json"
-  ],
   "keywords": [
     "scss",
     "css",<% if (props.twig) { %>

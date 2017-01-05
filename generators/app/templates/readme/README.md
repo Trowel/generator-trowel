@@ -30,11 +30,10 @@ The main scss file to include to your main `.scss` file is located at the `./<%=
 
 ```
 // Trowel Dependencies
-@import './path/to/dependencies/sassy-maps/sass/sassy-maps';
 @import './path/to/dependencies/trowel-core/src/trowel';
 
 // Trowel Components <%= props.names.capitalcase.plural %>
-@import './path/to/dependencies/<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>.scss';
+@import './path/to/dependencies/<%= props.packageName %>/<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>.scss';
 ```
 
 <% if (props.javascript) { %>#### *JavaScript*

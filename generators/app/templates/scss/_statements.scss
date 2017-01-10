@@ -8,9 +8,9 @@
   }
 };
 
-$selector: selector--constructor($<%= props.names.attachedcase.plural %>--synthax, '<%= props.names.kebabcase.singular %>');
+$<%= props.names.lowercase.singular %>--selector: selector--constructor($<%= props.names.attachedcase.plural %>--synthax, '<%= props.names.kebabcase.singular %>');
 
-@include selector($selector) {
+@include selector($<%= props.names.lowercase.singular %>--selector) {
   // @include declaration('-include-<%= props.names.attachedcase.plural %>--mixin-example', $<%= props.names.attachedcase.plural %>--var);
   @include declaration('font-size', $<%= props.names.attachedcase.plural %>--font-size);
   @include declaration('font-family', $<%= props.names.attachedcase.plural %>--font-family);
@@ -30,5 +30,5 @@ $selector: selector--constructor($<%= props.names.attachedcase.plural %>--syntha
   @include declaration('background', $<%= props.names.attachedcase.plural %>--background);
   @include declaration('background-color', $<%= props.names.attachedcase.plural %>--background-color);
 
-  @include block-generation;
+  @include block-generation($<%= props.names.lowercase.singular %>--selector);
 }

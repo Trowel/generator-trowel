@@ -1,8 +1,11 @@
-let gulp = require('gulp');
-let $ = require('gulp-load-plugins')();
-let runSequence = require('run-sequence');
-let browserSync = require('browser-sync');
-let reload = browserSync.reload;
+'use strict';
+
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import runSequence from 'run-sequence';
+import browserSync from 'browser-sync';
+const $ = gulpLoadPlugins();
+const reload = browserSync.reload;
 
 // Template
 // ========
@@ -18,7 +21,7 @@ gulp.task('template_test', () => {
         .pipe(gulp.dest('<%= folders.test %>/<%= folders.dest %>'));<% } %>
 });
 
-let report_error = error => {
+const report_error = error => {
   $.notify({
     title: 'An error occured with a Gulp task',
     message: 'Check you terminal for more informations'
@@ -32,7 +35,7 @@ let report_error = error => {
 // Style
 // =====
 
-let scssCompilation = (src, dest) => {
+const scssCompilation = (src, dest) => {
     return gulp.src(src)
         .pipe($.sourcemaps.init())
         .pipe($.sass({

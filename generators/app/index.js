@@ -426,8 +426,8 @@ module.exports = yeoman.Base.extend({
 
     gulp: function() {
       this.fs.copyTpl(
-        this.templatePath('gulp/gulpfile.js'),
-        this.destinationPath('gulpfile.js'),
+        this.templatePath('gulp/gulpfile.babel.js'),
+        this.destinationPath('gulpfile.babel.js'),
         {
           props: this.props,
           folders: this.folders,
@@ -449,7 +449,12 @@ module.exports = yeoman.Base.extend({
       'gulp-sass',
       'gulp-autoprefixer',
       'gulp-cssmin',
-      'gulp-rename'
+      'gulp-rename',
+      'babel',
+      'babel-cli',
+      'babel-core',
+      'babel-loader',
+      'babel-preset-es2015',
     ];
 
     var bowerDependencies = [
@@ -461,13 +466,6 @@ module.exports = yeoman.Base.extend({
       npmDevDependencies.push(
         'gulp-twig',
         'gulp-ext-replace'
-      );
-    }
-
-    if (this.props.javascript) {
-      npmDevDependencies.push(
-        'gulp-babel',
-        'babel-preset-es2015'
       );
     }
 

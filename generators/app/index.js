@@ -472,7 +472,7 @@ module.exports = yeoman.Base.extend({
     }
 
     if (!this.options.noinstall) {
-      this.npmInstall(['trowel-core'], {}, function() {
+      this.npmInstall(['trowel-core'], { 'save': true }, function() {
         this.npmInstall(npmDevDependencies, { 'saveDev': true }, function() {
           this.runInstall('yarn', null, function() {
             this.bowerInstall(['trowel-core'], { 'save': true });

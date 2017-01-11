@@ -1,9 +1,10 @@
-$<%= props.names.attachedcase.plural %>--prefix: 'c' !default;
-$<%= props.names.attachedcase.plural %>--synthax: (
-  'prefix': $<%= props.names.attachedcase.plural %>--prefix,
-  'separator': (
-    'prefix': '-',
-    'element': '__',
-    'modifier': '--',
-  ),
-);
+// $<%= props.names.attachedcase.plural %>--synthax: (
+//   'prefix': 'c',
+//   'separator': (
+//     'prefix': '-',
+//     'element': '__',
+//     'modifier': '--',
+//   ),
+// ) !default;
+
+$<%= props.names.attachedcase.plural %>--synthax: null !default;

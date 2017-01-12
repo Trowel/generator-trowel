@@ -433,6 +433,11 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
+
+      this.fs.copy(
+        this.templatePath('gulp/.babelrc'),
+        this.destinationPath('.babelrc')
+      );
     },
   },
 
@@ -466,6 +471,12 @@ module.exports = yeoman.Base.extend({
       npmDevDependencies.push(
         'gulp-twig',
         'gulp-ext-replace'
+      );
+    }
+
+    if (this.props.javascript) {
+      npmDevDependencies.push(
+        'gulp-babel'
       );
     }
 

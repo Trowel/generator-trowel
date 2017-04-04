@@ -1,4 +1,14 @@
-{# Here comes the <%= props.names.lowercase.singular %> markup #}
+{% set syntax = syntax|default({
+    'prefix': false,
+    'separator': {
+        'prefix': '-',
+        'element': '__',
+        'modifier': '--',
+    },
+}) %}
 
-{% set selector_prefix = 'c-' %}
-<div class="{{ selector_prefix }}<%= props.names.kebabcase.singular %>">hello world !</div>
+{% set blockSelector = syntax.prefix|default(false) ? syntax.prefix ~ syntax.separator.prefix ~ '<%= props.names.kebabcase.singular %>' : '<%= props.names.kebabcase.singular %>' %}
+
+<div class="{{ blockSelector }}">
+    {{ block('body') }}
+</div>

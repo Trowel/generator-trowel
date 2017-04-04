@@ -6,3 +6,6 @@ insert_final_newline = true
 
 [*.scss]
 indent_size = 2
+
+[src/javascript/**/*.js]
+indent_size = 2

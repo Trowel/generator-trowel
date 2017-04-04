@@ -1,5 +1,2 @@
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-@import './trowel-<%= props.names.kebabcase.plural %>';
+@import 'bower_components/trowel-core/src/trowel';
+@import '../../<%= folders.src %>/scss/<%= props.names.kebabcase.plural %>';

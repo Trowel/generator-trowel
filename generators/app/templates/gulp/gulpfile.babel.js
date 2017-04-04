@@ -62,28 +62,39 @@ const scssCompilation = (src, dest) => {
 
 gulp.task('style_test', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/style.scss', './<%= folders.test %>/<%= folders.dest %>'));
 gulp.task('style_dest', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/trowel-drops.scss', './<%= folders.dest %>/css'));
-gulp.task('style', ['style_test', 'style_dest']);
-
-
-<% if (props.javascript) { %>// Javascript
-// ==========
-
-let jsTranspilation = (src, dest) => {
-    return gulp.src(src)
+gulp.task('style', function() {
+    return gulp.src('./<%= folders.test %>/<%= folders.src %>/style.scss')
         .pipe($.sourcemaps.init())
-        .pipe($.babel({
-            presets: ['es2015']
+        .pipe($.sass({
+            precision: 6,
+            indentWidth: 4,
+        }))
+        .on('error', report_error)
+        .pipe($.autoprefixer({
+            browsers: [
+                'ie >= 10',
+                'ie_mob >= 10',
+                'ff >= 30',
+                'chrome >= 34',
+                'safari >= 7',
+                'opera >= 23',
+                'ios >= 7',
+                'android >= 4.4',
+                'bb >= 10'
+            ]
         }))
         .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(dest));
-}
+        .pipe(gulp.dest('./<%= folders.test %>/<%= folders.dest %>'))
+        .pipe($.rename({ basename: '<%= props.names.kebabcase.plural %>' }))
+        .pipe(gulp.dest('./<%= folders.dest %>/css'))
+        .pipe($.cssmin())
+        .pipe($.rename({ suffix: ".min" }))
+        .pipe(gulp.dest('./<%= folders.dest %>/css'))
+    ;
+});
 
-gulp.task('script_test', () => jsTranspilation('./<%= folders.src %>/javascript/<%= props.names.kebabcase.plural %>.js', './test/<%= folders.dest %>/javascript'));
-gulp.task('script_dest', () => jsTranspilation('./<%= folders.src %>/javascript/<%= props.names.kebabcase.plural %>.js', './<%= folders.dest %>/javascript'));
-gulp.task('script', ['script_test', 'script_dest']);
 
-<% } %>
-gulp.task('default', ['style', 'template_test'<% if (props.javascript) { %>, 'script'<% } %>]);
+gulp.task('default', ['style', 'template_test']);
 gulp.task('watch', ['default'], () => {
   browserSync({
     notify: false,
@@ -93,5 +104,4 @@ gulp.task('watch', ['default'], () => {
 
   gulp.watch('./**/*.scss', ['style', reload]);
   <% if (props.twig) { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html.twig', '<%= folders.src %>/twig/**/*.html.twig'], ['template_test', reload]);<% } else { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html'], ['template_test', reload]);<% } %>
-  <% if (props.javascript) { %>gulp.watch('./<%= folders.src %>/javascript/**/*', ['script', reload]);<% } %>
 });

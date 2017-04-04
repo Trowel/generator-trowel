@@ -29,7 +29,6 @@ module.exports = yeoman.Base.extend({
       src: 'src',
       dest: 'dest',
       test: 'test',
-      styleguide: 'styleguide',
     };
   },
 
@@ -205,29 +204,13 @@ module.exports = yeoman.Base.extend({
         { props: this.props }
       );
 
-      this.fs.copyTpl(
-        this.templatePath('scss/variables/_synthax.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_synthax.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/variables/_theme.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_theme.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/mixins/_mixin-example.scss'),
-        this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/_statements.scss'),
-        this.destinationPath(this.folders.src + '/scss/_statements.scss'),
-        { props: this.props }
-      );
+      ['enables', 'syntaxes', 'trowel-variables', 'mixin-example'].forEach(function(util) {
+        this.fs.copyTpl(
+          this.templatePath('scss/utils/_' + util + '.scss'),
+          this.destinationPath(this.folders.src + '/scss/utils/_' + util + '.scss'),
+          { props: this.props }
+        );
+      }.bind(this));
 
       this.fs.copy(
         this.templatePath('scss/.scss-lint.yml'),
@@ -254,8 +237,17 @@ module.exports = yeoman.Base.extend({
         );
 
         this.fs.copy(
-          this.templatePath('javascript/.jshintrc.yml'),
-          this.destinationPath('.jshintrc.yml')
+          this.templatePath('javascript/.babelrc'),
+          this.destinationPath('.babelrc')
+        );
+
+        this.fs.copyTpl(
+          this.templatePath('javascript/webpack.config.js'),
+          this.destinationPath('webpack.config.js'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
         );
       }
     },
@@ -289,46 +281,6 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
-
-      this.fs.copyTpl(
-        this.templatePath('test/trowel-component.scss'),
-        this.destinationPath(this.folders.test + '/' + this.folders.src + '/trowel-' + this.props.names.kebabcase.plural + '.scss'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
-
-    styleguide: function() {
-      if (this.props.twig) {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/index.html.twig'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html.twig'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      } else {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/index.html'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
-
-      this.fs.copyTpl(
-        this.templatePath('styleguide/style.scss'),
-        this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.scss'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
     },
 
     license: function() {
@@ -351,17 +303,6 @@ module.exports = yeoman.Base.extend({
       this.fs.copyTpl(
         this.templatePath('bower/.bowerrc'),
         this.destinationPath('.bowerrc'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
-
-    injector: function() {
-      this.fs.copyTpl(
-        this.templatePath('injector/injector.json'),
-        this.destinationPath('injector.json'),
         {
           props: this.props,
           folders: this.folders,
@@ -433,11 +374,6 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
-
-      this.fs.copy(
-        this.templatePath('gulp/.babelrc'),
-        this.destinationPath('.babelrc')
-      );
     },
   },
 
@@ -476,7 +412,13 @@ module.exports = yeoman.Base.extend({
 
     if (this.props.javascript) {
       npmDevDependencies.push(
-        'gulp-babel'
+        'babel',
+        'babel-core',
+        'babel-loader',
+        'babel-plugin-add-module-exports',
+        'babel-preset-es2015',
+        'webpack',
+        'yargs'
       );
     }
 

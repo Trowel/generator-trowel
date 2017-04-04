@@ -1,6 +1,7 @@
 <html>
   <head>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <style>body { font-family: 'Open Sans', sans-serif; }</style>
     <link rel="stylesheet" href="style.css" charset="utf-8">
   </head>
 
@@ -14,13 +15,14 @@
         <%= props.names.capitalcase.plural %>
     </h1>
 
-    <div class="c-<%= props.names.kebabcase.singular %>"></div>
+    {% embed '../../<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig' %}
+        {% block body %}hello world !{% endblock %}
+    {% endembed %}
 
-    {% include '../../<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig' %}
     <% if (props.javascript) { %><script src="./javascript/<%= props.names.kebabcase.plural %>.js"></script>
 
     <script type="text/javascript">
-        var drops = new Trowel<%= props.names.pascalcase.plural %>(document.querySelectorAll('.c-<%= props.names.kebabcase.singular %>'));
+        var <%= props.names.lowercase.plural %> = new Trowel<%= props.names.pascalcase.plural %>(document.querySelectorAll('.<%= props.names.kebabcase.singular %>'));
     </script><% } %>
   </body>
 </html>

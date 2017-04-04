@@ -3,6 +3,9 @@ test/
 .gitignore
 bower.json
 sache.json
-gulpfile.js
+gulpfile.babel.js
 node_modules
 bower_components
+yarn.lock
+<% if (props.javascript) { %>webpack.config.js<% } %>
+<% if (props.javascript) { %>.babelrc<% } %>

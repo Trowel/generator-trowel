@@ -14,9 +14,10 @@
         <%= props.names.capitalcase.plural %>
     </h1>
 
-    <div class="c-<%= props.names.kebabcase.singular %>"></div>
+    {% embed '../../<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig' %}
+        {% block body %}hello world !{% endblock %}
+    {% endembed %}
 
-    {% include '../../<%= folders.src %>/twig/<%= props.names.kebabcase.singular %>.html.twig' %}
     <% if (props.javascript) { %><script src="./javascript/<%= props.names.kebabcase.plural %>.js"></script>
 
     <script type="text/javascript">

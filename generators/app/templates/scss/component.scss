@@ -1,6 +1,33 @@
-@import 'mixins/mixin-example';
+/**
+ * <%= props.names.capitalcase.plural %>
+ */
 
-@import 'variables/synthax';
-@import 'variables/theme';
+@import 'utils/enables';
+@import 'utils/syntaxes';
+@import 'utils/trowel-variables';
+@import 'utils/mixin-example';
 
-@import 'statements';
+$<%= props.names.lowercase.singular %>--selector: selector(new '<%= props.names.kebabcase.singular %>' with $<%= props.names.attachedcase.plural %>--syntax);
+
+@if $<%= props.names.attachedcase.plural %>--enabled {
+  @include statement($<%= props.names.lowercase.singular %>--selector, (
+    ('@include <%= props.names.attachedcase.plural %>--mixin-example', null),
+    ('font-size', $<%= props.names.attachedcase.plural %>--font-size),
+    ('font-family', $<%= props.names.attachedcase.plural %>--font-family),
+    ('font-weight', $<%= props.names.attachedcase.plural %>--font-weight),
+    ('text-transform', $<%= props.names.attachedcase.plural %>--text-transform),
+    ('letter-spacing', $<%= props.names.attachedcase.plural %>--letter-spacing),
+    ('line-height', $<%= props.names.attachedcase.plural %>--line-height),
+    ('text-align', $<%= props.names.attachedcase.plural %>--text-align),
+    ('text-decoration', $<%= props.names.attachedcase.plural %>--text-decoration),
+    ('margin', $<%= props.names.attachedcase.plural %>--margin),
+    ('border-width', $<%= props.names.attachedcase.plural %>--border-width),
+    ('border-style', $<%= props.names.attachedcase.plural %>--border-style),
+    ('border-color', $<%= props.names.attachedcase.plural %>--border-color),
+    ('border-radius', $<%= props.names.attachedcase.plural %>--border-radius),
+    ('color', $<%= props.names.attachedcase.plural %>--color),
+    ('box-shadow', $<%= props.names.attachedcase.plural %>--box-shadow),
+    ('background', $<%= props.names.attachedcase.plural %>--background),
+    ('background-color', $<%= props.names.attachedcase.plural %>--background-color),
+  ));
+}

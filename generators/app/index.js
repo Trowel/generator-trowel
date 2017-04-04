@@ -204,29 +204,13 @@ module.exports = yeoman.Base.extend({
         { props: this.props }
       );
 
-      this.fs.copyTpl(
-        this.templatePath('scss/variables/_synthax.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_synthax.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/variables/_theme.scss'),
-        this.destinationPath(this.folders.src + '/scss/variables/_theme.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/mixins/_mixin-example.scss'),
-        this.destinationPath(this.folders.src + '/scss/mixins/_mixin-example.scss'),
-        { props: this.props }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('scss/_statements.scss'),
-        this.destinationPath(this.folders.src + '/scss/_statements.scss'),
-        { props: this.props }
-      );
+      ['enables', 'syntaxes', 'trowel-variables', 'mixin-example'].forEach(function(util) {
+        this.fs.copyTpl(
+          this.templatePath('scss/utils/_' + util + '.scss'),
+          this.destinationPath(this.folders.src + '/scss/utils/_' + util + '.scss'),
+          { props: this.props }
+        );
+      }.bind(this));
 
       this.fs.copy(
         this.templatePath('scss/.scss-lint.yml'),

@@ -21,7 +21,7 @@
     <% if (props.javascript) { %><script src="./javascript/<%= props.names.kebabcase.plural %>.js"></script>
 
     <script type="text/javascript">
-        var drops = new Trowel<%= props.names.pascalcase.plural %>(document.querySelectorAll('.<%= props.names.kebabcase.singular %>'));
+        var <%= props.names.lowercase.plural %> = new Trowel<%= props.names.pascalcase.plural %>(document.querySelectorAll('.<%= props.names.kebabcase.singular %>'));
     </script><% } %>
   </body>
 </html>

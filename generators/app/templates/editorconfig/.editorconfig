@@ -7,5 +7,5 @@ insert_final_newline = true
 [*.scss]
 indent_size = 2
 
-[*.js]
+[src/javascript/**/*.js]
 indent_size = 2

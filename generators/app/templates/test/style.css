@@ -1,5 +1,0 @@
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-<% if (props.css) { %>@import url("../../<%= folders.dest %>/css/props.names.kebabcase.plural.min.css");<% } %>

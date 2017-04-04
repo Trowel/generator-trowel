@@ -62,7 +62,36 @@ const scssCompilation = (src, dest) => {
 
 gulp.task('style_test', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/style.scss', './<%= folders.test %>/<%= folders.dest %>'));
 gulp.task('style_dest', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/trowel-drops.scss', './<%= folders.dest %>/css'));
-gulp.task('style', ['style_test', 'style_dest']);
+gulp.task('style', function() {
+    return gulp.src('./<%= folders.test %>/<%= folders.src %>/style.scss')
+        .pipe($.sourcemaps.init())
+        .pipe($.sass({
+            precision: 6,
+            indentWidth: 4,
+        }))
+        .on('error', report_error)
+        .pipe($.autoprefixer({
+            browsers: [
+                'ie >= 10',
+                'ie_mob >= 10',
+                'ff >= 30',
+                'chrome >= 34',
+                'safari >= 7',
+                'opera >= 23',
+                'ios >= 7',
+                'android >= 4.4',
+                'bb >= 10'
+            ]
+        }))
+        .pipe($.sourcemaps.write())
+        .pipe(gulp.dest('./<%= folders.test %>/<%= folders.dest %>'))
+        .pipe($.rename({ basename: '<%= props.names.kebabcase.plural %>' }))
+        .pipe(gulp.dest('./<%= folders.dest %>/css'))
+        .pipe($.cssmin())
+        .pipe($.rename({ suffix: ".min" }))
+        .pipe(gulp.dest('./<%= folders.dest %>/css'))
+    ;
+});
 
 
 gulp.task('default', ['style', 'template_test']);

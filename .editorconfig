@@ -18,3 +18,6 @@ insert_final_newline = true
 
 [generators/app/templates/**/*.scss]
 indent_size = 2
+
+[generators/app/templates/javascript/**/*.js]
+indent_size = 2

@@ -237,8 +237,17 @@ module.exports = yeoman.Base.extend({
         );
 
         this.fs.copy(
-          this.templatePath('javascript/.jshintrc.yml'),
-          this.destinationPath('.jshintrc.yml')
+          this.templatePath('javascript/.babelrc'),
+          this.destinationPath('.babelrc')
+        );
+
+        this.fs.copyTpl(
+          this.templatePath('javascript/webpack.config.js'),
+          this.destinationPath('webpack.config.js'),
+          {
+            props: this.props,
+            folders: this.folders,
+          }
         );
       }
     },
@@ -365,11 +374,6 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
-
-      this.fs.copy(
-        this.templatePath('gulp/.babelrc'),
-        this.destinationPath('.babelrc')
-      );
     },
   },
 
@@ -408,7 +412,13 @@ module.exports = yeoman.Base.extend({
 
     if (this.props.javascript) {
       npmDevDependencies.push(
-        'gulp-babel'
+        'babel',
+        'babel-core',
+        'babel-loader',
+        'babel-plugin-add-module-exports',
+        'babel-preset-es2015',
+        'webpack',
+        'yargs'
       );
     }
 

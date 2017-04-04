@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "<%= props.description %>",
   "scripts": {
-    "test": "gulp",
+    "test": "gulp",<% if (props.javascript) { %>
+    "build-javascript": "webpack",
+    "build-javascript-dev": "webpack --progress --colors --watch",<% } %>
     "start": "gulp watch"
   },
   "repository": {

@@ -65,25 +65,7 @@ gulp.task('style_dest', () => scssCompilation('./<%= folders.test %>/<%= folders
 gulp.task('style', ['style_test', 'style_dest']);
 
 
-<% if (props.javascript) { %>// Javascript
-// ==========
-
-let jsTranspilation = (src, dest) => {
-    return gulp.src(src)
-        .pipe($.sourcemaps.init())
-        .pipe($.babel({
-            presets: ['es2015']
-        }))
-        .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(dest));
-}
-
-gulp.task('script_test', () => jsTranspilation('./<%= folders.src %>/javascript/<%= props.names.kebabcase.plural %>.js', './test/<%= folders.dest %>/javascript'));
-gulp.task('script_dest', () => jsTranspilation('./<%= folders.src %>/javascript/<%= props.names.kebabcase.plural %>.js', './<%= folders.dest %>/javascript'));
-gulp.task('script', ['script_test', 'script_dest']);
-
-<% } %>
-gulp.task('default', ['style', 'template_test'<% if (props.javascript) { %>, 'script'<% } %>]);
+gulp.task('default', ['style', 'template_test']);
 gulp.task('watch', ['default'], () => {
   browserSync({
     notify: false,
@@ -93,5 +75,4 @@ gulp.task('watch', ['default'], () => {
 
   gulp.watch('./**/*.scss', ['style', reload]);
   <% if (props.twig) { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html.twig', '<%= folders.src %>/twig/**/*.html.twig'], ['template_test', reload]);<% } else { %>gulp.watch(['<%= folders.test %>/<%= folders.src %>/**/*.html'], ['template_test', reload]);<% } %>
-  <% if (props.javascript) { %>gulp.watch('./<%= folders.src %>/javascript/**/*', ['script', reload]);<% } %>
 });

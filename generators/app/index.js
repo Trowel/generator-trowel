@@ -29,7 +29,6 @@ module.exports = yeoman.Base.extend({
       src: 'src',
       dest: 'dest',
       test: 'test',
-      styleguide: 'styleguide',
     };
   },
 
@@ -284,46 +283,6 @@ module.exports = yeoman.Base.extend({
       this.fs.copyTpl(
         this.templatePath('test/style.scss'),
         this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('test/trowel-component.scss'),
-        this.destinationPath(this.folders.test + '/' + this.folders.src + '/trowel-' + this.props.names.kebabcase.plural + '.scss'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
-
-    styleguide: function() {
-      if (this.props.twig) {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/index.html.twig'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html.twig'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      } else {
-        this.fs.copyTpl(
-          this.templatePath('styleguide/index.html'),
-          this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.html'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      }
-
-      this.fs.copyTpl(
-        this.templatePath('styleguide/style.scss'),
-        this.destinationPath(this.folders.styleguide + '/' + this.props.names.kebabcase.plural + '-styleguide.scss'),
         {
           props: this.props,
           folders: this.folders,

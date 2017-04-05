@@ -51,5 +51,8 @@ The twig template is located at the `./<%= folders.src %>/twig/<%= props.names.k
 ## Usage
 to be written
 
+## Contributing
+If you want to contribute you can checkout the contribution guide [over here](CONTRIBUTING.md)
+
 ## License
 MIT © [Trowel](trowel.github.io)

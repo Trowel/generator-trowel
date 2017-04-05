@@ -310,10 +310,19 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    readme: function() {
+    doc: function() {
       this.fs.copyTpl(
-        this.templatePath('readme/README.md'),
+        this.templatePath('doc/README.md'),
         this.destinationPath('README.md'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('doc/contributing.md'),
+        this.destinationPath('CONTRIBUTING.md'),
         {
           props: this.props,
           folders: this.folders,

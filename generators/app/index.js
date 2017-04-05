@@ -236,11 +236,6 @@ module.exports = yeoman.Base.extend({
           { props: this.props }
         );
 
-        this.fs.copy(
-          this.templatePath('javascript/.babelrc'),
-          this.destinationPath('.babelrc')
-        );
-
         this.fs.copyTpl(
           this.templatePath('javascript/webpack.config.js'),
           this.destinationPath('webpack.config.js'),
@@ -383,6 +378,15 @@ module.exports = yeoman.Base.extend({
           folders: this.folders,
         }
       );
+
+      this.fs.copyTpl(
+        this.templatePath('gulp/.babelrc'),
+        this.destinationPath('.babelrc'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
     },
   },
 
@@ -421,9 +425,6 @@ module.exports = yeoman.Base.extend({
 
     if (this.props.javascript) {
       npmDevDependencies.push(
-        'babel',
-        'babel-core',
-        'babel-loader',
         'babel-plugin-add-module-exports',
         'babel-preset-es2015',
         'webpack',

@@ -35,33 +35,6 @@ const report_error = error => {
 // Style
 // =====
 
-const scssCompilation = (src, dest) => {
-    return gulp.src(src)
-        .pipe($.sourcemaps.init())
-        .pipe($.sass({
-            precision: 6,
-            indentWidth: 4,
-        }))
-        .on('error', report_error)
-        .pipe($.autoprefixer({
-            browsers: [
-                'ie >= 10',
-                'ie_mob >= 10',
-                'ff >= 30',
-                'chrome >= 34',
-                'safari >= 7',
-                'opera >= 23',
-                'ios >= 7',
-                'android >= 4.4',
-                'bb >= 10'
-            ]
-        }))
-        .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(dest));
-}
-
-gulp.task('style_test', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/style.scss', './<%= folders.test %>/<%= folders.dest %>'));
-gulp.task('style_dest', () => scssCompilation('./<%= folders.test %>/<%= folders.src %>/trowel-drops.scss', './<%= folders.dest %>/css'));
 gulp.task('style', function() {
     return gulp.src('./<%= folders.test %>/<%= folders.src %>/style.scss')
         .pipe($.sourcemaps.init())

@@ -9,6 +9,20 @@
 
 {% set blockSelector = syntax.prefix|default(false) ? syntax.prefix ~ syntax.separator.prefix ~ '<%= props.names.kebabcase.singular %>' : '<%= props.names.kebabcase.singular %>' %}
 
+{% set modifiersClasses = '' %}
+{% for modifier in modifiers|default([]) %}
+    {% set modifiersClasses = modifiersClasses ~ ' ' ~ blockSelector ~ syntax.separator.modifier ~ modifier %}
+{% endfor %}
+
+{% set attrsGenerated = '' %}
+{% for attr_name, attr_value in attrs|default([]) %}
+    {% set attrsGenerated = attrsGenerated ~ ' ' ~ attr_name ~ '="' ~ attr_value ~ '"' %}
+{% endfor %}
+
+{% set elementSelector = blockSelector ~ syntax.separator.element %}
+
+<div class="{{ blockSelector ~ modifiersClasses }}{{ classes|default(false) ? ' ' ~ classes|join(' ') }}"{{ attrsGenerated|raw }}>
+
 <div class="{{ blockSelector }}">
     {{ block('body') }}
 </div>

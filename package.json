@@ -1,6 +1,6 @@
 {
   "name": "generator-trowel",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "A yeoman generator to create trowel repository",
   "homepage": "https://github.com/trowel",
   "author": {

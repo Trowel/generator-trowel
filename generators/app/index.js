@@ -1,6 +1,6 @@
 /*jshint -W097 */
 'use strict';
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var caseFilter = require('./case-filters.js')();
@@ -16,8 +16,8 @@ var validateString = function(input) {
   return true;
 };
 
-module.exports = yeoman.Base.extend({
-  initializing: function() {
+module.exports = class extends Generator {
+  initializing() {
     this.option('noinstall');
 
     // Have Yeoman greet the user.
@@ -30,9 +30,9 @@ module.exports = yeoman.Base.extend({
       dest: 'dest',
       test: 'test',
     };
-  },
+  }
 
-  prompting: function () {
+  prompting() {
     return this.prompt([
       {
         type: 'input',
@@ -125,7 +125,7 @@ module.exports = yeoman.Base.extend({
       {
         type: 'input',
         name: 'packageName',
-        message: 'What\'s the name of your future packages (for bower/npm/yarn) ?',
+        message: 'What\'s the name of the library for the package managers ?',
         default: function(answers) {
           return 'trowel-' + this.names.kebabcase.plural;
         }.bind(this),
@@ -190,241 +190,253 @@ module.exports = yeoman.Base.extend({
           return 'Some javascript file with it ? (located at `' + this.folders.src + '/javascript/' + this.names.kebabcase.plural + '.js`)';
         }.bind(this),
       },
+
+      {
+        type: 'list',
+        name: 'dependencyManager',
+        required: true,
+        choices: ['npm', 'yarn'],
+        message: 'Which dependency manager would you use for fecthing dev dependencies ?',
+        when: function() {
+          return !this.options.noinstall;
+        }.bind(this),
+      },
     ]).then(function (props) {
       this.props = props;
       this.props.names = this.names;
     }.bind(this));
-  },
+  }
 
-  writing: {
-    scss: function() {
+  writing() {
+    // scss
+    this.fs.copyTpl(
+      this.templatePath('scss/component.scss'),
+      this.destinationPath(this.folders.src + '/scss/' + this.props.names.kebabcase.plural + '.scss'),
+      { props: this.props }
+    );
+
+    ['enables', 'syntaxes', 'trowel-variables', 'mixin-example'].forEach(function(util) {
       this.fs.copyTpl(
-        this.templatePath('scss/component.scss'),
-        this.destinationPath(this.folders.src + '/scss/' + this.props.names.kebabcase.plural + '.scss'),
+        this.templatePath('scss/utils/_' + util + '.scss'),
+        this.destinationPath(this.folders.src + '/scss/utils/_' + util + '.scss'),
+        { props: this.props }
+      );
+    }.bind(this));
+
+    this.fs.copy(
+      this.templatePath('scss/.scss-lint.yml'),
+      this.destinationPath('.scss-lint.yml')
+    );
+
+
+    // twig
+    if (this.props.twig) {
+      this.fs.copyTpl(
+        this.templatePath('twig/component.html.twig'),
+        this.destinationPath(this.folders.src + '/twig/' + this.props.names.kebabcase.singular + '.html.twig'),
+        { props: this.props }
+      );
+    }
+
+
+    // javascript
+    if (this.props.javascript) {
+      this.fs.copyTpl(
+        this.templatePath('javascript/component.js'),
+        this.destinationPath(this.folders.src + '/javascript/' + this.props.names.kebabcase.plural + '.js'),
         { props: this.props }
       );
 
-      ['enables', 'syntaxes', 'trowel-variables', 'mixin-example'].forEach(function(util) {
-        this.fs.copyTpl(
-          this.templatePath('scss/utils/_' + util + '.scss'),
-          this.destinationPath(this.folders.src + '/scss/utils/_' + util + '.scss'),
-          { props: this.props }
-        );
-      }.bind(this));
-
-      this.fs.copy(
-        this.templatePath('scss/.scss-lint.yml'),
-        this.destinationPath('.scss-lint.yml')
+      this.fs.copyTpl(
+        this.templatePath('javascript/webpack.config.js'),
+        this.destinationPath('webpack.config.js'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
       );
-    },
+    }
 
-    twig: function() {
-      if (this.props.twig) {
-        this.fs.copyTpl(
-          this.templatePath('twig/component.html.twig'),
-          this.destinationPath(this.folders.src + '/twig/' + this.props.names.kebabcase.singular + '.html.twig'),
-          { props: this.props }
-        );
+
+    // test
+    if (this.props.twig) {
+      this.fs.copyTpl(
+        this.templatePath('test/index.html.twig'),
+        this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html.twig'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    } else {
+      this.fs.copyTpl(
+        this.templatePath('test/index.html'),
+        this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html'),
+        {
+          props: this.props,
+          folders: this.folders,
+        }
+      );
+    }
+
+    this.fs.copyTpl(
+      this.templatePath('test/style.scss'),
+      this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
+      {
+        props: this.props,
+        folders: this.folders,
       }
-    },
+    );
 
-    javascript: function() {
-      if (this.props.javascript) {
-        this.fs.copyTpl(
-          this.templatePath('javascript/component.js'),
-          this.destinationPath(this.folders.src + '/javascript/' + this.props.names.kebabcase.plural + '.js'),
-          { props: this.props }
-        );
 
-        this.fs.copyTpl(
-          this.templatePath('javascript/webpack.config.js'),
-          this.destinationPath('webpack.config.js'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
+    // license
+    this.fs.copy(
+      this.templatePath('LICENSE'),
+      this.destinationPath('LICENSE')
+    );
+
+
+    // bower
+    this.fs.copyTpl(
+      this.templatePath('bower/bower.json'),
+      this.destinationPath('bower.json'),
+      {
+        props: this.props,
+        folders: this.folders,
       }
-    },
+    );
 
-    test: function() {
-      if (this.props.twig) {
-        this.fs.copyTpl(
-          this.templatePath('test/index.html.twig'),
-          this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html.twig'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
-      } else {
-        this.fs.copyTpl(
-          this.templatePath('test/index.html'),
-          this.destinationPath(this.folders.test + '/' + this.folders.src + '/index.html'),
-          {
-            props: this.props,
-            folders: this.folders,
-          }
-        );
+    this.fs.copyTpl(
+      this.templatePath('bower/.bowerrc'),
+      this.destinationPath('.bowerrc'),
+      {
+        props: this.props,
+        folders: this.folders,
       }
+    );
 
-      this.fs.copyTpl(
-        this.templatePath('test/style.scss'),
-        this.destinationPath(this.folders.test + '/' + this.folders.src + '/style.scss'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
 
-    license: function() {
-      this.fs.copy(
-        this.templatePath('LICENSE'),
-        this.destinationPath('LICENSE')
-      );
-    },
+    // doc
+    this.fs.copyTpl(
+      this.templatePath('doc/README.md'),
+      this.destinationPath('README.md'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
 
-    bower: function() {
-      this.fs.copyTpl(
-        this.templatePath('bower/bower.json'),
-        this.destinationPath('bower.json'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
+    this.fs.copyTpl(
+      this.templatePath('doc/contributing.md'),
+      this.destinationPath('CONTRIBUTING.md'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
 
-      this.fs.copyTpl(
-        this.templatePath('bower/.bowerrc'),
-        this.destinationPath('.bowerrc'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
 
-    doc: function() {
-      this.fs.copyTpl(
-        this.templatePath('doc/README.md'),
-        this.destinationPath('README.md'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
+    // editorconfig
+    this.fs.copy(
+      this.templatePath('editorconfig/.editorconfig'),
+      this.destinationPath('.editorconfig')
+    );
 
-      this.fs.copyTpl(
-        this.templatePath('doc/contributing.md'),
-        this.destinationPath('CONTRIBUTING.md'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
+    // git
+    this.fs.copyTpl(
+      this.templatePath('git/.gitignore'),
+      this.destinationPath('.gitignore'),
+      {
+        folders: this.folders
+      }
+    );
 
-    editorconfig: function() {
-      this.fs.copy(
-        this.templatePath('editorconfig/.editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-    },
 
-    git: function() {
-      this.fs.copyTpl(
-        this.templatePath('git/.gitignore'),
-        this.destinationPath('.gitignore'),
-        {
-          folders: this.folders
-        }
-      );
-    },
+    // npm
+    this.fs.copyTpl(
+      this.templatePath('npm/package.json'),
+      this.destinationPath('package.json'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
 
-    npm: function() {
-      this.fs.copyTpl(
-        this.templatePath('npm/package.json'),
-        this.destinationPath('package.json'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
+    this.fs.copy(
+      this.templatePath('npm/.npmignore'),
+      this.destinationPath('.npmignore')
+    );
 
-      this.fs.copy(
-        this.templatePath('npm/.npmignore'),
-        this.destinationPath('.npmignore')
-      );
-    },
 
-    sache: function() {
-      this.fs.copyTpl(
-        this.templatePath('sache/sache.json'),
-        this.destinationPath('sache.json'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
+    // sache
+    this.fs.copyTpl(
+      this.templatePath('sache/sache.json'),
+      this.destinationPath('sache.json'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
 
-    gulp: function() {
-      this.fs.copyTpl(
-        this.templatePath('gulp/gulpfile.babel.js'),
-        this.destinationPath('gulpfile.babel.js'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
+    // gulp
+    this.fs.copyTpl(
+      this.templatePath('gulp/gulpfile.babel.js'),
+      this.destinationPath('gulpfile.babel.js'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
 
-      this.fs.copyTpl(
-        this.templatePath('gulp/.babelrc'),
-        this.destinationPath('.babelrc'),
-        {
-          props: this.props,
-          folders: this.folders,
-        }
-      );
-    },
-  },
+    this.fs.copyTpl(
+      this.templatePath('gulp/.babelrc'),
+      this.destinationPath('.babelrc'),
+      {
+        props: this.props,
+        folders: this.folders,
+      }
+    );
+  }
 
-  install: function () {
-    var npmDevDependencies = [
-      'gulp',
-      'gulp-size',
-      'gulp-load-plugins',
-      'gulp-prettify',
-      'run-sequence',
-      'browser-sync',
-      'gulp-notify',
-      'gulp-sourcemaps',
-      'gulp-sass',
-      'gulp-autoprefixer',
-      'gulp-cssmin',
-      'gulp-rename',
-      'babel',
-      'babel-cli',
-      'babel-core',
-      'babel-loader',
-      'babel-preset-es2015',
-    ];
+  install() {
+    const nodeDeps = {
+      'save': [
+        'trowel-core',
+      ],
+      'saveDev': [
+        'gulp',
+        'gulp-size',
+        'gulp-load-plugins',
+        'gulp-prettify',
+        'run-sequence',
+        'browser-sync',
+        'gulp-notify',
+        'gulp-sourcemaps',
+        'gulp-sass',
+        'gulp-autoprefixer',
+        'gulp-cssmin',
+        'gulp-rename',
+        'babel',
+        'babel-cli',
+        'babel-core',
+        'babel-loader',
+        'babel-preset-es2015',
+      ],
+    };
 
-    var bowerDependencies = [
+    const bowerDeps = [
       'trowel-core',
-      'sassy-maps'
     ];
 
     if (this.props.twig) {
-      npmDevDependencies.push(
+      nodeDeps.saveDev.push(
         'gulp-twig',
         'gulp-ext-replace'
       );
     }
 
     if (this.props.javascript) {
-      npmDevDependencies.push(
+      nodeDeps.saveDev.push(
         'babel-plugin-add-module-exports',
         'babel-preset-es2015',
         'webpack',
@@ -432,14 +444,11 @@ module.exports = yeoman.Base.extend({
       );
     }
 
+
     if (!this.options.noinstall) {
-      this.npmInstall(['trowel-core'], { 'save': true }, function() {
-        this.npmInstall(npmDevDependencies, { 'saveDev': true }, function() {
-          this.runInstall('yarn', null, function() {
-            this.bowerInstall(['trowel-core'], { 'save': true });
-          }.bind(this));
-        }.bind(this));
-      }.bind(this));
+      this[`${this.props.dependencyManager}Install`](nodeDeps.saveDev, { 'saveDev': true });
+      this[`${this.props.dependencyManager}Install`](nodeDeps.save, { 'save': true });
+      this[`bowerInstall`](bowerDeps, { 'save': true });
     }
   }
-});
+};

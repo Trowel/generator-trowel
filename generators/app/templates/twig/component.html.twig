@@ -22,7 +22,5 @@
 {% set elementSelector = blockSelector ~ syntax.separator.element %}
 
 <div class="{{ blockSelector ~ modifiersClasses }}{{ classes|default(false) ? ' ' ~ classes|join(' ') }}"{{ attrsGenerated|raw }}>
-
-<div class="{{ blockSelector }}">
     {{ block('body') }}
 </div>
